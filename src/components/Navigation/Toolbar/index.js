@@ -7,8 +7,8 @@ const Toolbar = (props) => (
     <Navbar bg="dark" variant="dark">
       <Logo />
       <Nav className="mr-auto">
-        <Nav.Link href="#home">Home</Nav.Link>
-        <Nav.Link href="#features">Add Audio</Nav.Link>
+        <Nav.Link href="/">Home</Nav.Link>
+        <Nav.Link href="/add-post">Add Audio</Nav.Link>
       </Nav>
     </Navbar>
   </Aux>

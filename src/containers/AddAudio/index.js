@@ -1,16 +1,10 @@
 import { Component } from 'react';
-// import { connect } from 'react-redux';
-// import classes from './style.css';
-// import Button from '../../../components/UI/Button';
 import { Spinner, Form, Button, Container, Row, Col } from 'react-bootstrap';
-// import Input from '../../../components/UI/Input';
-// import { purchaseBurger } from '../../../store/AC';
-import { generateBase64FromAudio } from '../../util/audio';
 
 class AddAudio extends Component {
   state = {
     title: {
-      value: 'text',
+      value: '',
     },
     audio: {
       value: null,
@@ -18,7 +12,7 @@ class AddAudio extends Component {
     description: {
       value: '',
     },
-
+    loading: false,
     formIsValid: false,
   };
 
@@ -39,12 +33,19 @@ class AddAudio extends Component {
       },
     })
       .then((res) => {
+        console.log('weewewe');
+        this.setState({
+          loading: true,
+        });
         if (res.status !== 200 && res.status !== 201) {
           throw new Error('Creating or editing a post failed!');
         }
         return res.json();
       })
       .then((resData) => {
+        this.setState({
+          loading: true,
+        });
         console.log(resData);
       })
       .catch((err) => console.log(err));
@@ -89,19 +90,6 @@ class AddAudio extends Component {
           value: target.files[0],
         },
       });
-      // generateBase64FromAudio(target.files[0])
-      //   .then((b64) => {
-      //     console.log(target.value);
-      //     this.setState({
-      //       ...this.state,
-      //       audio: {
-      //         value: b64,
-      //       },
-      //     });
-      //   })
-      //   .catch((err) => {
-      //     this.setState({ audio: { value: null } });
-      //   });
     } else {
       this.setState({
         ...this.state,
@@ -113,8 +101,8 @@ class AddAudio extends Component {
   };
 
   render() {
-    console.log(this.state);
-    const { title, description, audio } = this.state;
+    const { title, description, audio, loading } = this.state;
+    console.log(loading);
     let form = (
       <Form onSubmit={this.orderHandler}>
         <Form.Group>
@@ -154,8 +142,8 @@ class AddAudio extends Component {
         </Button>
       </Form>
     );
-    if (this.props.loading) {
-      form = <Spinner animation="grow" variant="light" />;
+    if (loading) {
+      form = <Spinner animation="grow" variant="info" />;
     }
     return (
       <Container className="mt-5">
