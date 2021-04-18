@@ -1,4 +1,5 @@
 import { Navbar, Nav } from 'react-bootstrap';
+import { NavLink } from 'react-router-dom';
 import Aux from '../../../hoc/Aux';
 import Logo from '../../Logo';
 
@@ -7,8 +8,12 @@ const Toolbar = (props) => (
     <Navbar bg="dark" variant="dark">
       <Logo />
       <Nav className="mr-auto">
-        <Nav.Link href="/">Home</Nav.Link>
-        <Nav.Link href="/add-post">Add Audio</Nav.Link>
+        <Nav.Link as={NavLink} exact to="/">
+          Home
+        </Nav.Link>
+        <Nav.Link as={NavLink} to="/add-post">
+          Add Audio
+        </Nav.Link>
       </Nav>
     </Navbar>
   </Aux>

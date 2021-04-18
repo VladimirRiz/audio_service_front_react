@@ -1,5 +1,6 @@
 import { Component } from 'react';
-import { Spinner, Form, Button, Container, Row, Col } from 'react-bootstrap';
+import Spinner from '../../UI/Spinner';
+import { Form, Button, Container, Row, Col } from 'react-bootstrap';
 
 class AddAudio extends Component {
   state = {
@@ -7,7 +8,7 @@ class AddAudio extends Component {
       value: '',
     },
     audio: {
-      value: null,
+      value: '',
     },
     description: {
       value: '',
@@ -18,6 +19,9 @@ class AddAudio extends Component {
 
   orderHandler = (e) => {
     e.preventDefault();
+    this.setState({
+      loading: true,
+    });
     const { title, audio, description } = this.state;
     const formData = new FormData();
     formData.append('title', title.value);
@@ -25,30 +29,32 @@ class AddAudio extends Component {
     formData.append('description', description.value);
     let url = 'http://localhost:8080/feed/post';
     let method = 'POST';
-    fetch(url, {
+    const settings = {
       method,
       body: formData,
-      headers: {
-        Authorization: `Bearer ${this.props.token}`,
-      },
-    })
-      .then((res) => {
-        console.log('weewewe');
-        this.setState({
-          loading: true,
-        });
-        if (res.status !== 200 && res.status !== 201) {
-          throw new Error('Creating or editing a post failed!');
-        }
-        return res.json();
+      // headers: {
+      //   Authorization: `Bearer ${this.props.token}`,
+      // },
+    };
+    console.log();
+    fetch(url, settings)
+      .then((response) => {
+        return response.json();
       })
-      .then((resData) => {
+      .then((data) => {
+        this.props.history.push('/');
         this.setState({
-          loading: true,
+          loading: false,
         });
-        console.log(resData);
+
+        console.log('Success:', title);
       })
-      .catch((err) => console.log(err));
+      .catch((error) => {
+        this.setState({
+          loading: false,
+        });
+        console.error('Error:', error);
+      });
   };
 
   checkValid(rules, value) {
@@ -100,11 +106,16 @@ class AddAudio extends Component {
     }
   };
 
+  click = () => {
+    this.setState({
+      loading: !this.state.loading,
+    });
+  };
+
   render() {
-    const { title, description, audio, loading } = this.state;
-    console.log(loading);
+    const { title, description, loading } = this.state;
     let form = (
-      <Form onSubmit={this.orderHandler}>
+      <form onSubmit={this.orderHandler}>
         <Form.Group>
           <Form.Label>Title</Form.Label>
           <Form.Control
@@ -120,7 +131,6 @@ class AddAudio extends Component {
             name="audio"
             id="exampleFormControlFile1"
             label="Choose your file"
-            defaultValue={audio.value}
             onChange={this.onChangeHandler}
           />
         </Form.Group>
@@ -140,10 +150,10 @@ class AddAudio extends Component {
         <Button variant="primary" type="submit">
           Submit
         </Button>
-      </Form>
+      </form>
     );
     if (loading) {
-      form = <Spinner animation="grow" variant="info" />;
+      form = <Spinner />;
     }
     return (
       <Container className="mt-5">
@@ -153,6 +163,7 @@ class AddAudio extends Component {
             {form}
           </Col>
         </Row>
+        <button onClick={this.click}>Click</button>
       </Container>
     );
   }

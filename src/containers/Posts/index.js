@@ -1,8 +1,8 @@
 import { Component } from 'react';
 
 import Post from '../../components/Post';
-
-import { Spinner, Container, Row } from 'react-bootstrap';
+import Spinner from '../../UI/Spinner';
+import { Container, Row } from 'react-bootstrap';
 
 class Posts extends Component {
   state = {
@@ -17,8 +17,6 @@ class Posts extends Component {
     });
     fetch('http://localhost:8080/feed/posts')
       .then((res) => {
-        console.log('here');
-
         return res.json();
       })
       .then((resData) => {
@@ -29,7 +27,6 @@ class Posts extends Component {
             audio: `http://localhost:8080/${post.audio}`,
           });
         });
-        console.log(updatedPosts);
         this.setState({
           ...this.state,
           posts: updatedPosts,
@@ -48,6 +45,7 @@ class Posts extends Component {
           title={post.title}
           description={post.description}
           audio={post.audio}
+          link={post._id}
         />
       );
     });
@@ -55,9 +53,8 @@ class Posts extends Component {
       audioPosts = <Spinner animation="grow" variant="info" />;
     }
     return (
-      <Container>
-        <Row className="justify-content-md-center"></Row>
-        {audioPosts}
+      <Container className="mt-5">
+        <Row className="justify-content-md-center">{audioPosts}</Row>
       </Container>
     );
   }
