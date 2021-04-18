@@ -1,6 +1,9 @@
 import { Component } from 'react';
 import Spinner from '../../UI/Spinner';
+import { Redirect } from 'react-router-dom';
 import { Form, Button, Container, Row, Col } from 'react-bootstrap';
+import { connect } from 'react-redux';
+import { createPost } from '../../store/AC';
 
 class AddAudio extends Component {
   state = {
@@ -19,11 +22,8 @@ class AddAudio extends Component {
     editPost: null,
   };
 
-  orderHandler = (e) => {
+  postHandler = (e) => {
     e.preventDefault();
-    this.setState({
-      loading: true,
-    });
     const { title, audio, description } = this.state;
     const formData = new FormData();
     formData.append('title', title.value);
@@ -43,22 +43,7 @@ class AddAudio extends Component {
       // },
     };
     console.log();
-    fetch(url, settings)
-      .then((response) => {
-        return response.json();
-      })
-      .then((data) => {
-        this.props.history.push('/');
-        this.setState({
-          loading: false,
-        });
-      })
-      .catch((error) => {
-        this.setState({
-          loading: false,
-        });
-        console.error('Error:', error);
-      });
+    this.props.createPost(url, settings);
   };
 
   checkValid(rules, value) {
@@ -111,9 +96,10 @@ class AddAudio extends Component {
   };
 
   render() {
-    const { title, description, loading } = this.state;
+    const redirect = this.props.redirect ? <Redirect to="/" /> : null;
+    const { title, description } = this.state;
     let form = (
-      <form onSubmit={this.orderHandler}>
+      <form onSubmit={this.postHandler}>
         <Form.Group>
           <Form.Label>Title</Form.Label>
           <Form.Control
@@ -150,13 +136,14 @@ class AddAudio extends Component {
         </Button>
       </form>
     );
-    if (loading) {
+    if (this.props.loading) {
       form = <Spinner />;
     }
     return (
       <Container className="mt-5">
         <Row>
           <Col md={{ span: 6, offset: 3 }}>
+            {redirect}
             <h4>Enter Your Data!</h4>
             {form}
           </Col>
@@ -166,4 +153,13 @@ class AddAudio extends Component {
   }
 }
 
-export default AddAudio;
+const mapStateToProps = (state) => {
+  return {
+    loading: state.post.loading,
+    redirect: state.post.redirect,
+  };
+};
+
+const mapDispatchToProps = { createPost };
+
+export default connect(mapStateToProps, mapDispatchToProps)(AddAudio);

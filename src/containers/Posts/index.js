@@ -1,7 +1,7 @@
 import { Component } from 'react';
 
 import { connect } from 'react-redux';
-import { fetchPosts, removePost } from '../../store/AC';
+import { fetchPosts, removePost, createPostInit } from '../../store/AC';
 
 import Post from '../../components/Post';
 import Spinner from '../../UI/Spinner';
@@ -16,6 +16,7 @@ class Posts extends Component {
   };
 
   componentDidMount() {
+    this.props.createPostInit();
     this.props.fetchPosts();
   }
 
@@ -68,6 +69,6 @@ const mapStateToProps = (state) => {
   };
 };
 
-const mapDispatchToProps = { fetchPosts, removePost };
+const mapDispatchToProps = { fetchPosts, removePost, createPostInit };
 
 export default connect(mapStateToProps, mapDispatchToProps)(Posts);

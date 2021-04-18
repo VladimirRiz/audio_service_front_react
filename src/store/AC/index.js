@@ -1,2 +1,2 @@
 export { fetchPosts, removePost } from './posts';
-export { fetchPost } from './post';
+export { fetchPost, createPost, createPostInit } from './post';

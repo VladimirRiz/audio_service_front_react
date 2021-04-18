@@ -37,3 +37,45 @@ export const fetchPost = (postId) => {
       });
   };
 };
+
+export const createPostInit = () => {
+  return {
+    type: actions.CREATE_POST_INIT,
+  };
+};
+
+export const createPostStart = () => {
+  return {
+    type: actions.CREATE_POST_START,
+  };
+};
+
+export const createPostSuccess = () => {
+  return {
+    type: actions.CREATE_POST_SUCCESS,
+  };
+};
+
+export const createPostFail = (err) => {
+  return {
+    type: actions.CREATE_POST_FAIL,
+    error: err,
+  };
+};
+
+export const createPost = (url, settings) => {
+  return (dispatch) => {
+    dispatch(createPostStart());
+    fetch(url, settings)
+      .then((response) => {
+        return response.json();
+      })
+      .then((data) => {
+        // this.props.history.push('/');
+        dispatch(createPostSuccess());
+      })
+      .catch((err) => {
+        dispatch(createPostFail(err));
+      });
+  };
+};
