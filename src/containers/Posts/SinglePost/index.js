@@ -1,5 +1,6 @@
 import { Component } from 'react';
 import Spinner from '../../../UI/Spinner';
+import { Container, Row, Col } from 'react-bootstrap';
 
 class SinglePost extends Component {
   state = {
@@ -19,6 +20,7 @@ class SinglePost extends Component {
           audio: `http://localhost:8080/${resData.post.audio}`,
           description: resData.post.description,
           loading: false,
+          postId: resData.post._id,
         });
       })
       .catch((err) => console.log(err));
@@ -29,14 +31,20 @@ class SinglePost extends Component {
     return loading ? (
       <Spinner />
     ) : (
-      <div>
-        <h4>{title}</h4>
-        <audio controls>
-          <source src={audio} type="audio/mpeg" />
-          Your browser does not support the audio element.
-        </audio>
-        <p>{description}</p>
-      </div>
+      <Container className="mt-5">
+        <Row className="justify-content-md-center">
+          <Col className="d-flex flex-column justify-content-between">
+            <h4>{title}</h4>
+            <div>
+              <audio controls>
+                <source src={audio} type="audio/mpeg" />
+                Your browser does not support the audio element.
+              </audio>
+            </div>
+            <p>{description}</p>
+          </Col>
+        </Row>
+      </Container>
     );
   };
 

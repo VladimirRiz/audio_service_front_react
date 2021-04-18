@@ -15,6 +15,7 @@ class AddAudio extends Component {
     },
     loading: false,
     formIsValid: false,
+    isEdit: false,
   };
 
   orderHandler = (e) => {
@@ -106,12 +107,6 @@ class AddAudio extends Component {
     }
   };
 
-  click = () => {
-    this.setState({
-      loading: !this.state.loading,
-    });
-  };
-
   render() {
     const { title, description, loading } = this.state;
     let form = (
@@ -163,7 +158,6 @@ class AddAudio extends Component {
             {form}
           </Col>
         </Row>
-        <button onClick={this.click}>Click</button>
       </Container>
     );
   }

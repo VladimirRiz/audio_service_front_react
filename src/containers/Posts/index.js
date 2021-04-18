@@ -12,7 +12,6 @@ class Posts extends Component {
 
   componentDidMount() {
     this.setState({
-      ...this.state,
       loading: true,
     });
     fetch('http://localhost:8080/feed/posts')
@@ -36,19 +35,50 @@ class Posts extends Component {
       .catch((err) => console.log(err));
   }
 
+  onDelete = (postId) => {
+    this.setState({
+      loading: true,
+    });
+    fetch(`http://localhost:8080/feed/post/${postId}`, {
+      method: 'DELETE',
+    })
+      .then((res) => {
+        return res.json();
+      })
+      .then((resData) => {
+        console.log(resData);
+        this.setState((prevState) => {
+          const updatedPosts = prevState.posts.filter(
+            (post) => post._id !== postId
+          );
+          return {
+            posts: updatedPosts,
+            loading: false,
+          };
+        });
+      })
+      .catch((err) => console.log(err));
+  };
+
   render() {
     const { posts, loading } = this.state;
-    let audioPosts = posts.map((post) => {
-      return (
-        <Post
-          key={post._id}
-          title={post.title}
-          description={post.description}
-          audio={post.audio}
-          link={post._id}
-        />
+    let audioPosts =
+      posts.length > 0 ? (
+        posts.map((post) => {
+          return (
+            <Post
+              key={post._id}
+              title={post.title}
+              description={post.description}
+              audio={post.audio}
+              link={post._id}
+              delete={this.onDelete}
+            />
+          );
+        })
+      ) : (
+        <h3>Nothing to load</h3>
       );
-    });
     if (loading) {
       audioPosts = <Spinner animation="grow" variant="info" />;
     }

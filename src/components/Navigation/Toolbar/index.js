@@ -15,6 +15,14 @@ const Toolbar = (props) => (
           Add Audio
         </Nav.Link>
       </Nav>
+      <Nav className="justify-content-end">
+        <Nav.Link as={NavLink} to="/login">
+          Login
+        </Nav.Link>
+        <Nav.Link as={NavLink} to="/signup">
+          SignUp
+        </Nav.Link>
+      </Nav>
     </Navbar>
   </Aux>
 );
