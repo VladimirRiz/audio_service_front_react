@@ -16,6 +16,7 @@ class AddAudio extends Component {
     loading: false,
     formIsValid: false,
     isEdit: false,
+    editPost: null,
   };
 
   orderHandler = (e) => {
@@ -30,6 +31,10 @@ class AddAudio extends Component {
     formData.append('description', description.value);
     let url = 'http://localhost:8080/feed/post';
     let method = 'POST';
+    if (this.props.editPost) {
+      url = `http://localhost:8080/feed/post/${this.state.editPost._id}`;
+      method = 'PUT';
+    }
     const settings = {
       method,
       body: formData,
@@ -47,8 +52,6 @@ class AddAudio extends Component {
         this.setState({
           loading: false,
         });
-
-        console.log('Success:', title);
       })
       .catch((error) => {
         this.setState({

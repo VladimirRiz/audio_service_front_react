@@ -18,6 +18,12 @@ const Post = (props) => {
             Show More
           </Link>
           <Button
+            variant="outline-warning"
+            onClick={props.onEdit.bind(this, props.link)}
+          >
+            Edit
+          </Button>
+          <Button
             variant="danger"
             onClick={props.delete.bind(this, props.link)}
           >

@@ -1,5 +1,8 @@
 import { Component } from 'react';
 
+import { connect } from 'react-redux';
+import { fetchPosts, removePost } from '../../store/AC';
+
 import Post from '../../components/Post';
 import Spinner from '../../UI/Spinner';
 import { Container, Row } from 'react-bootstrap';
@@ -8,60 +11,27 @@ class Posts extends Component {
   state = {
     posts: [],
     loading: false,
+    edit: false,
+    postEdit: null,
   };
 
   componentDidMount() {
-    this.setState({
-      loading: true,
-    });
-    fetch('http://localhost:8080/feed/posts')
-      .then((res) => {
-        return res.json();
-      })
-      .then((resData) => {
-        const updatedPosts = [...this.state.posts];
-        resData.posts.map((post) => {
-          return updatedPosts.push({
-            ...post,
-            audio: `http://localhost:8080/${post.audio}`,
-          });
-        });
-        this.setState({
-          ...this.state,
-          posts: updatedPosts,
-          loading: false,
-        });
-      })
-      .catch((err) => console.log(err));
+    this.props.fetchPosts();
   }
 
   onDelete = (postId) => {
-    this.setState({
-      loading: true,
-    });
-    fetch(`http://localhost:8080/feed/post/${postId}`, {
-      method: 'DELETE',
-    })
-      .then((res) => {
-        return res.json();
-      })
-      .then((resData) => {
-        console.log(resData);
-        this.setState((prevState) => {
-          const updatedPosts = prevState.posts.filter(
-            (post) => post._id !== postId
-          );
-          return {
-            posts: updatedPosts,
-            loading: false,
-          };
-        });
-      })
-      .catch((err) => console.log(err));
+    this.props.removePost(postId);
+  };
+
+  onEdit = (postId) => {
+    const loadedPost = [...this.state.posts].find(
+      (post) => post._id === postId
+    );
+    console.log(this.state.posts, loadedPost);
   };
 
   render() {
-    const { posts, loading } = this.state;
+    const { posts, loading } = this.props;
     let audioPosts =
       posts.length > 0 ? (
         posts.map((post) => {
@@ -73,6 +43,7 @@ class Posts extends Component {
               audio={post.audio}
               link={post._id}
               delete={this.onDelete}
+              onEdit={this.onEdit}
             />
           );
         })
@@ -90,4 +61,13 @@ class Posts extends Component {
   }
 }
 
-export default Posts;
+const mapStateToProps = (state) => {
+  return {
+    posts: state.posts.posts,
+    loading: state.posts.loading,
+  };
+};
+
+const mapDispatchToProps = { fetchPosts, removePost };
+
+export default connect(mapStateToProps, mapDispatchToProps)(Posts);
