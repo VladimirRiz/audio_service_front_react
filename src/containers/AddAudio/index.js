@@ -5,6 +5,8 @@ import { Form, Button, Container, Row, Col } from 'react-bootstrap';
 import { connect } from 'react-redux';
 import { createPost, createPostInit } from '../../store/AC';
 
+const CATEGORIES = ['Pop', 'Rock', 'Hip-Hop', 'Jazz', 'Latin'];
+
 class AddAudio extends Component {
   state = {
     title: {
@@ -16,12 +18,16 @@ class AddAudio extends Component {
     description: {
       value: '',
     },
+    category: {
+      value: 'Rock',
+    },
     formIsValid: false,
   };
 
   componentDidMount() {
     this.props.createPost();
     this.props.createPostInit();
+    console.log(this.props.editPost);
     if (this.props.editPost) {
       this.setState({
         ...this.state,
@@ -37,18 +43,21 @@ class AddAudio extends Component {
             ''
           ),
         },
+        category: {
+          value: this.props.editPost.category,
+        },
       });
     }
   }
 
   postHandler = (e) => {
     e.preventDefault();
-    const { title, audio, description } = this.state;
+    const { title, audio, description, category } = this.state;
     const formData = new FormData();
-
     formData.append('title', title.value);
     formData.append('audio', audio.value);
     formData.append('description', description.value);
+    formData.append('category', category.value);
     let url = 'http://localhost:8080/feed/post';
     let method = 'POST';
     if (this.props.editPost) {
@@ -98,6 +107,7 @@ class AddAudio extends Component {
   }
 
   onChangeHandler = ({ target }, id) => {
+    console.log(target.name);
     if (target.type === 'file') {
       this.setState({
         ...this.state,
@@ -117,7 +127,14 @@ class AddAudio extends Component {
 
   render() {
     const redirect = this.props.redirect ? <Redirect to="/" /> : null;
-    const { title, description } = this.state;
+    const { title, description, category } = this.state;
+    console.log(category);
+    const select = CATEGORIES.map((category) => (
+      <option key={category} value={category}>
+        {category}
+      </option>
+    ));
+
     let form = (
       <form onSubmit={this.postHandler}>
         <Form.Group>
@@ -138,6 +155,24 @@ class AddAudio extends Component {
             onChange={this.onChangeHandler}
           />
         </Form.Group>
+        <select
+          className="form-control"
+          name="category"
+          onChange={this.onChangeHandler}
+          value={this.state.templateId}
+        >
+          {select}
+        </select>
+        {/* <select
+          value={category}
+          name="category"
+          onChange={this.onChangeHandler}
+        >
+          <option value="grapefruit">Grapefruit</option>
+          <option value="lime">Lime</option>
+          <option value="coconut">Coconut</option>
+          <option value="mango">Mango</option>
+        </select> */}
         <Form.Group>
           <Form.Label>Description</Form.Label>
           <Form.Control
@@ -175,6 +210,7 @@ class AddAudio extends Component {
 
 const mapStateToProps = (state) => {
   return {
+    catagories: state.posts.catagories,
     loading: state.post.loading,
     redirect: state.post.redirect,
     isEditPost: state.post.isEditPost,

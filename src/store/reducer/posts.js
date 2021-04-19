@@ -5,6 +5,7 @@ import * as actions from '../AC/actionTypes';
 const INITIAL_STATE = {
   posts: [],
   loading: false,
+  categories: ['Pop', 'Rock', 'Hip-Hop', 'Jazz', 'Latin'],
 };
 
 const fetchPostsStart = (state, action) => {

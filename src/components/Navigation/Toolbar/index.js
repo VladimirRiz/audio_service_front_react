@@ -14,6 +14,9 @@ const Toolbar = (props) => (
         <Nav.Link as={NavLink} to="/add-post">
           Add Audio
         </Nav.Link>
+        <Nav.Link as={NavLink} to="/categories">
+          Categories
+        </Nav.Link>
       </Nav>
       <Nav className="justify-content-end">
         <Nav.Link as={NavLink} to="/login">
