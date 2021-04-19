@@ -23,7 +23,6 @@ class AddAudio extends Component {
     this.props.createPost();
     this.props.createPostInit();
     if (this.props.editPost) {
-      console.log('here');
       this.setState({
         ...this.state,
         title: {
@@ -117,7 +116,6 @@ class AddAudio extends Component {
   };
 
   render() {
-    console.log(this.props.loading, this.props.editPost);
     const redirect = this.props.redirect ? <Redirect to="/" /> : null;
     const { title, description } = this.state;
     let form = (
@@ -156,14 +154,6 @@ class AddAudio extends Component {
         <Button variant="primary" type="submit">
           Submit
         </Button>
-        <button
-          onClick={(e) => {
-            e.preventDefault();
-            console.log(this.state);
-          }}
-        >
-          show
-        </button>
       </form>
     );
     if (this.props.loading) {

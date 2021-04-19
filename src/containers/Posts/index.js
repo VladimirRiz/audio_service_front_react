@@ -18,7 +18,6 @@ class Posts extends Component {
     this.props.createPostInit();
     this.props.editPostFinish();
     this.props.fetchPosts();
-    console.log(this.props.loading);
   }
 
   onDelete = (postId) => {

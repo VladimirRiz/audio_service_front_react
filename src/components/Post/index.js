@@ -14,7 +14,7 @@ const Post = (props) => {
           </audio>
         </div>
         <div className="d-flex  justify-content-between">
-          <Link className="More_btn" to={props.link}>
+          <Link className="Post_button More_btn" to={props.link}>
             Show More
           </Link>
           {/* <Button
@@ -22,6 +22,7 @@ const Post = (props) => {
             onClick={props.onEdit.bind(this, props.link)}
           > */}
           <Link
+            className="Post_button Edit"
             onClick={props.onEdit.bind(this, props.link)}
             to={`/add-post/${props.link}`}
           >
