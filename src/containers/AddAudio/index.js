@@ -3,7 +3,7 @@ import Spinner from '../../UI/Spinner';
 import { Redirect } from 'react-router-dom';
 import { Form, Button, Container, Row, Col } from 'react-bootstrap';
 import { connect } from 'react-redux';
-import { createPost } from '../../store/AC';
+import { createPost, createPostInit } from '../../store/AC';
 
 class AddAudio extends Component {
   state = {
@@ -16,25 +16,47 @@ class AddAudio extends Component {
     description: {
       value: '',
     },
-    loading: false,
     formIsValid: false,
-    isEdit: false,
-    editPost: null,
   };
+
+  componentDidMount() {
+    this.props.createPost();
+    this.props.createPostInit();
+    if (this.props.editPost) {
+      console.log('here');
+      this.setState({
+        ...this.state,
+        title: {
+          value: this.props.editPost.title,
+        },
+        description: {
+          value: this.props.editPost.description,
+        },
+        audio: {
+          value: this.props.editPost.audio.replace(
+            'http://localhost:8080/',
+            ''
+          ),
+        },
+      });
+    }
+  }
 
   postHandler = (e) => {
     e.preventDefault();
     const { title, audio, description } = this.state;
     const formData = new FormData();
+
     formData.append('title', title.value);
     formData.append('audio', audio.value);
     formData.append('description', description.value);
     let url = 'http://localhost:8080/feed/post';
     let method = 'POST';
     if (this.props.editPost) {
-      url = `http://localhost:8080/feed/post/${this.state.editPost._id}`;
+      url = `http://localhost:8080/feed/post/${this.props.editPost._id}`;
       method = 'PUT';
     }
+    console.log(url, method);
     const settings = {
       method,
       body: formData,
@@ -42,7 +64,6 @@ class AddAudio extends Component {
       //   Authorization: `Bearer ${this.props.token}`,
       // },
     };
-    console.log();
     this.props.createPost(url, settings);
   };
 
@@ -96,6 +117,7 @@ class AddAudio extends Component {
   };
 
   render() {
+    console.log(this.props.loading, this.props.editPost);
     const redirect = this.props.redirect ? <Redirect to="/" /> : null;
     const { title, description } = this.state;
     let form = (
@@ -134,6 +156,14 @@ class AddAudio extends Component {
         <Button variant="primary" type="submit">
           Submit
         </Button>
+        <button
+          onClick={(e) => {
+            e.preventDefault();
+            console.log(this.state);
+          }}
+        >
+          show
+        </button>
       </form>
     );
     if (this.props.loading) {
@@ -157,9 +187,11 @@ const mapStateToProps = (state) => {
   return {
     loading: state.post.loading,
     redirect: state.post.redirect,
+    isEditPost: state.post.isEditPost,
+    editPost: state.post.editPost,
   };
 };
 
-const mapDispatchToProps = { createPost };
+const mapDispatchToProps = { createPost, createPostInit };
 
 export default connect(mapStateToProps, mapDispatchToProps)(AddAudio);

@@ -11,6 +11,7 @@ function App() {
     <Layout>
       <Switch>
         <Route path="/add-post" exact component={AddAudio} />
+        <Route path="/add-post/:postId" exact component={AddAudio} />
         <Route path="/:postId" component={SinglePost} />
         <Route path="/" exact component={Posts} />
 

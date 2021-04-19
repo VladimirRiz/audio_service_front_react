@@ -1,23 +1,24 @@
 import { Component } from 'react';
 
 import { connect } from 'react-redux';
-import { fetchPosts, removePost, createPostInit } from '../../store/AC';
+import {
+  fetchPosts,
+  removePost,
+  createPostInit,
+  editPostStart,
+  editPostFinish,
+} from '../../store/AC';
 
 import Post from '../../components/Post';
 import Spinner from '../../UI/Spinner';
 import { Container, Row } from 'react-bootstrap';
 
 class Posts extends Component {
-  state = {
-    posts: [],
-    loading: false,
-    edit: false,
-    postEdit: null,
-  };
-
   componentDidMount() {
     this.props.createPostInit();
+    this.props.editPostFinish();
     this.props.fetchPosts();
+    console.log(this.props.loading);
   }
 
   onDelete = (postId) => {
@@ -25,10 +26,10 @@ class Posts extends Component {
   };
 
   onEdit = (postId) => {
-    const loadedPost = [...this.state.posts].find(
-      (post) => post._id === postId
-    );
-    console.log(this.state.posts, loadedPost);
+    const editPost = {
+      ...this.props.posts.find((post) => post._id === postId),
+    };
+    this.props.editPostStart(editPost);
   };
 
   render() {
@@ -66,9 +67,16 @@ const mapStateToProps = (state) => {
   return {
     posts: state.posts.posts,
     loading: state.posts.loading,
+    editPost: state.post,
   };
 };
 
-const mapDispatchToProps = { fetchPosts, removePost, createPostInit };
+const mapDispatchToProps = {
+  fetchPosts,
+  removePost,
+  createPostInit,
+  editPostStart,
+  editPostFinish,
+};
 
 export default connect(mapStateToProps, mapDispatchToProps)(Posts);

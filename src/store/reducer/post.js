@@ -5,7 +5,8 @@ import * as actions from '../AC/actionTypes';
 const INITIAL_STATE = {
   post: [],
   loading: false,
-  editPost: false,
+  isEditPost: false,
+  editPost: null,
   redirect: false,
 };
 
@@ -33,6 +34,13 @@ const createPostFail = (state, action) => {
   return updateObject(state, { loading: false, redirect: false });
 };
 
+const editPostStart = (state, action) => {
+  return updateObject(state, { isEditPost: true, editPost: action.editPost });
+};
+const editPostFinish = (state, action) => {
+  return updateObject(state, { isEditPost: false, editPost: null });
+};
+
 const reducer = (state = INITIAL_STATE, action) => {
   switch (action.type) {
     case actions.FETCH_POST_START:
@@ -49,6 +57,10 @@ const reducer = (state = INITIAL_STATE, action) => {
       return createPostSuccess(state, action);
     case actions.CREATE_POST_FAIL:
       return createPostFail(state, action);
+    case actions.EDIT_POST_START:
+      return editPostStart(state, action);
+    case actions.EDIT_POST_FINISH:
+      return editPostFinish(state, action);
     default:
       return state;
   }

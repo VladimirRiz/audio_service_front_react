@@ -71,11 +71,23 @@ export const createPost = (url, settings) => {
         return response.json();
       })
       .then((data) => {
-        // this.props.history.push('/');
         dispatch(createPostSuccess());
       })
       .catch((err) => {
         dispatch(createPostFail(err));
       });
+  };
+};
+
+export const editPostStart = (editPost) => {
+  return {
+    type: actions.EDIT_POST_START,
+    editPost: editPost,
+  };
+};
+
+export const editPostFinish = () => {
+  return {
+    type: actions.EDIT_POST_FINISH,
   };
 };
