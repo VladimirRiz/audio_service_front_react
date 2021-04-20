@@ -1,60 +1,72 @@
 import { Component } from 'react';
-import { Container, Row, ButtonGroup, Button } from 'react-bootstrap';
+import {
+  Container,
+  Row,
+  ToggleButtonGroup,
+  ToggleButton,
+} from 'react-bootstrap';
 import { connect } from 'react-redux';
 import Category from '../../components/Category';
 import Spinner from '../../UI/Spinner';
+import { fetchPostsCategory } from '../../store/AC';
 
 class Categories extends Component {
-  state = {
-    posts: [],
-    loading: false,
-  };
-
   componentDidMount() {}
 
-  onClickkk = (category) => {
-    this.setState({
-      loading: true,
-    });
-    fetch(`http://localhost:8080/feed/posts/${category}`)
-      .then((res) => {
-        return res.json();
-      })
-      .then((resData) => {
-        this.setState({
-          posts: resData.posts,
-          loading: false,
-        });
-      })
-      .catch((err) => console.log(err));
+  getCategory = (category) => {
+    this.props.fetchPostsCategory(category);
+  };
+
+  setGenreButton = () => {
+    return this.props.categories.map((category) => (
+      <ToggleButton
+        variant="secondary"
+        key={category}
+        value={category}
+        onClick={this.getCategory.bind(this, category)}
+      >
+        {category}
+      </ToggleButton>
+    ));
+  };
+
+  showItems = () => {
+    return this.props.posts
+      ? this.props.posts.map((post) => (
+          <Category key={post._id} name={post.title} link={post._id} />
+        ))
+      : null;
   };
 
   render() {
-    const categoriesBtns = this.props.categories.map((category) => (
-      <Button
-        variant="secondary"
-        key={category}
-        onClick={this.onClickkk.bind(this, category)}
-      >
-        {category}
-      </Button>
-    ));
-    const showItems = this.state.posts
-      ? this.state.posts.map((post) => <Category name={post.title} />)
-      : null;
-    const categoryItem = this.state.loading ? <Spinner /> : showItems;
+    const categoryItem = this.props.loading ? <Spinner /> : this.showItems();
     return (
       <Container className="mt-5">
         <h1>Categories</h1>
-        <ButtonGroup aria-label="Basic example">{categoriesBtns}</ButtonGroup>
-        <Row className="">{categoryItem}</Row>
+        <Row className="d-flex flex-column justify-content-between">
+          <h4>Music genre:</h4>
+          <ToggleButtonGroup
+            type="radio"
+            name="options"
+            aria-label="Basic example"
+          >
+            {this.setGenreButton()}
+          </ToggleButtonGroup>
+        </Row>
+        <Row className="mt-5">{categoryItem}</Row>
       </Container>
     );
   }
 }
 
 const mapStateToProps = (state) => {
-  return { categories: state.posts.categories };
+  return {
+    posts: state.posts.posts,
+    categories: state.posts.categories,
+    loading: state.posts.loading,
+  };
 };
 
-export default connect(mapStateToProps)(Categories);
+const mapDispatchToProps = { fetchPostsCategory };
+
+export default connect(mapStateToProps, mapDispatchToProps)(Categories);

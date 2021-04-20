@@ -46,6 +46,37 @@ export const fetchPosts = () => {
   };
 };
 
+export const fetchPostsCategoryStart = () => {
+  return {
+    type: actions.GET_POSTS_CATEGORY_START,
+  };
+};
+export const fetchPostsCategorySuccess = (posts) => {
+  return {
+    type: actions.GET_POSTS_CATEGORY_SUCCESS,
+    posts: posts,
+  };
+};
+export const fetchPostsCategoryFail = (err) => {
+  return {
+    type: actions.GET_POSTS_CATEGORY_FAIL,
+    error: err,
+  };
+};
+export const fetchPostsCategory = (category) => {
+  return (dispatch) => {
+    dispatch(fetchPostsCategoryStart());
+    fetch(`http://localhost:8080/feed/posts/${category}`)
+      .then((res) => {
+        return res.json();
+      })
+      .then((resData) => {
+        dispatch(fetchPostsCategorySuccess(resData.posts));
+      })
+      .catch((err) => dispatch(fetchPostsCategoryFail(err)));
+  };
+};
+
 export const removePost = (postId) => {
   return (dispatch) => {
     dispatch(fetchPostsStart());

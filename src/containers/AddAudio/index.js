@@ -27,7 +27,6 @@ class AddAudio extends Component {
   componentDidMount() {
     this.props.createPost();
     this.props.createPostInit();
-    console.log(this.props.editPost);
     if (this.props.editPost) {
       this.setState({
         ...this.state,
