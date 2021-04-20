@@ -1,4 +1,4 @@
-export { fetchPosts, removePost, fetchPostsCategory } from './posts';
+export { fetchPosts, removePost, fetchPostsCategory, setLike } from './posts';
 export {
   fetchPost,
   createPost,

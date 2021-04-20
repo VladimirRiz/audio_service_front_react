@@ -34,7 +34,19 @@ const fetchPostsCategorySuccess = (state, action) => {
   return updateObject(state, { loading: false, posts: action.posts });
 };
 const fetchPostsCategoryFail = (state, action) => {
-  return updateObject(state, { loading: false });
+  return updateObject(state, { posts: action.posts });
+};
+
+const setLikeSuccess = (state, action) => {
+  const findIndex = state.posts.findIndex(
+    (post) => post._id === action.post._id
+  );
+  const updatedPosts = [...state.posts];
+  updatedPosts[findIndex] = action.post;
+  return updateObject(state, { posts: updatedPosts });
+};
+const setLikeFail = (state, action) => {
+  return updateObject(state);
 };
 
 const reducer = (state = INITIAL_STATE, action) => {
@@ -53,6 +65,10 @@ const reducer = (state = INITIAL_STATE, action) => {
       return fetchPostsCategorySuccess(state, action);
     case actions.GET_POSTS_CATEGORY_FAIL:
       return fetchPostsCategoryFail(state, action);
+    case actions.SET_POST_LIKE_SUCCESS:
+      return setLikeSuccess(state, action);
+    case actions.SET_POST_LIKE_FAIL:
+      return setLikeFail(state, action);
     default:
       return state;
   }

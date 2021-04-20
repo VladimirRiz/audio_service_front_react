@@ -92,3 +92,29 @@ export const removePost = (postId) => {
       .catch((err) => dispatch(fetchPostsFail(err)));
   };
 };
+
+export const setLikeSuccess = (post) => {
+  return {
+    type: actions.SET_POST_LIKE_SUCCESS,
+    post,
+  };
+};
+
+export const setLikeFail = (error) => {
+  return {
+    type: actions.SET_POST_LIKE_FAIL,
+    error,
+  };
+};
+
+export const setLike = (postId) => {
+  return (dispatch) => {
+    fetch(`http://localhost:8080/feed/post/likes/${postId}`, { method: 'PUT' })
+      .then((res) => res.json())
+      .then((resData) => {
+        // console.log(resData);
+        dispatch(setLikeSuccess(resData.post));
+      })
+      .catch((err) => dispatch(setLikeFail(err)));
+  };
+};

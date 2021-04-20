@@ -7,6 +7,7 @@ import {
   createPostInit,
   editPostStart,
   editPostFinish,
+  setLike,
 } from '../../store/AC';
 
 import Post from '../../components/Post';
@@ -31,8 +32,13 @@ class Posts extends Component {
     this.props.editPostStart(editPost);
   };
 
+  setLike = (postId) => {
+    this.props.setLike(postId);
+  };
+
   render() {
     const { posts, loading } = this.props;
+    // console.log(posts);
     let audioPosts =
       posts.length > 0 ? (
         posts.map((post) => {
@@ -45,6 +51,8 @@ class Posts extends Component {
               link={post._id}
               delete={this.onDelete}
               onEdit={this.onEdit}
+              likes={post.likes}
+              setLike={this.setLike.bind(this, post._id)}
             />
           );
         })
@@ -76,6 +84,7 @@ const mapDispatchToProps = {
   createPostInit,
   editPostStart,
   editPostFinish,
+  setLike,
 };
 
 export default connect(mapStateToProps, mapDispatchToProps)(Posts);

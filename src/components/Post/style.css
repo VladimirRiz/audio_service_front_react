@@ -5,8 +5,9 @@
 .Post_button {
   display: flex;
   align-items: center;
-  padding: 0.5rem 1rem;
-  border-radius: 1rem;
+  padding: 0.5rem;
+
+  border-radius: 0.5rem;
   outline: none;
   transition: background-color 0.3s ease-in-out;
 }
@@ -17,6 +18,7 @@
 }
 
 .Edit {
+  margin-right: 1rem;
   color: rgb(54, 58, 68);
   border: 2px solid rgb(218, 221, 27);
 }
@@ -29,4 +31,8 @@
   color: #fff;
   text-decoration: none;
   transition: background-color 0.3s ease-in-out;
+}
+
+.Likes {
+  cursor: pointer;
 }
