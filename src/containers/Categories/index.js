@@ -8,7 +8,7 @@ import {
 import { connect } from 'react-redux';
 import Category from '../../components/Category';
 import Spinner from '../../UI/Spinner';
-import { fetchPostsCategory } from '../../store/AC';
+import { fetchPostsCategory, fetchPopular } from '../../store/AC';
 
 class Categories extends Component {
   componentDidMount() {}
@@ -30,13 +30,17 @@ class Categories extends Component {
     ));
   };
 
+  getPopular = () => {
+    this.props.fetchPopular();
+  };
+
   setOtherCategories = () => {
     return this.props.categories['other'].map((category) => (
       <ToggleButton
         variant="secondary"
         key={category}
         value={category}
-        onClick={this.getCategory.bind(this, category)}
+        onClick={this.getPopular.bind(this, category)}
       >
         {category}
       </ToggleButton>
@@ -92,6 +96,6 @@ const mapStateToProps = (state) => {
   };
 };
 
-const mapDispatchToProps = { fetchPostsCategory };
+const mapDispatchToProps = { fetchPostsCategory, fetchPopular };
 
 export default connect(mapStateToProps, mapDispatchToProps)(Categories);

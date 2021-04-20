@@ -51,18 +51,21 @@ export const fetchPostsCategoryStart = () => {
     type: actions.GET_POSTS_CATEGORY_START,
   };
 };
+
 export const fetchPostsCategorySuccess = (posts) => {
   return {
     type: actions.GET_POSTS_CATEGORY_SUCCESS,
     posts: posts,
   };
 };
+
 export const fetchPostsCategoryFail = (err) => {
   return {
     type: actions.GET_POSTS_CATEGORY_FAIL,
     error: err,
   };
 };
+
 export const fetchPostsCategory = (category) => {
   return (dispatch) => {
     dispatch(fetchPostsCategoryStart());
@@ -74,6 +77,40 @@ export const fetchPostsCategory = (category) => {
         dispatch(fetchPostsCategorySuccess(resData.posts));
       })
       .catch((err) => dispatch(fetchPostsCategoryFail(err)));
+  };
+};
+
+export const fetchPopularStart = () => {
+  return {
+    type: actions.GET_POPULAR_START,
+  };
+};
+
+export const fetchPopularSuccess = (posts) => {
+  return {
+    type: actions.GET_POPULAR_SUCCESS,
+    posts,
+  };
+};
+
+export const fetchPopularFail = (err) => {
+  return {
+    type: actions.GET_POPULAR_FAIL,
+    error: err,
+  };
+};
+
+export const fetchPopular = () => {
+  return (dispatch) => {
+    dispatch(fetchPopularStart());
+    fetch('http://localhost:8080/feed/likes')
+      .then((res) => res.json())
+      .then((resData) => {
+        dispatch(fetchPopularSuccess(resData.posts));
+      })
+      .catch((err) => {
+        dispatch(fetchPopularFail(err));
+      });
   };
 };
 

@@ -49,6 +49,18 @@ const setLikeFail = (state, action) => {
   return updateObject(state);
 };
 
+const fetchPopularStart = (state, action) => {
+  return updateObject(state, { loading: true });
+};
+
+const fetchPopularSuccess = (state, action) => {
+  return updateObject(state, { posts: action.posts, loading: false });
+};
+
+const fetchPopularFail = (state, action) => {
+  return updateObject(state, { loading: false });
+};
+
 const reducer = (state = INITIAL_STATE, action) => {
   switch (action.type) {
     case actions.FETCH_POSTS_START:
@@ -69,6 +81,12 @@ const reducer = (state = INITIAL_STATE, action) => {
       return setLikeSuccess(state, action);
     case actions.SET_POST_LIKE_FAIL:
       return setLikeFail(state, action);
+    case actions.GET_POPULAR_START:
+      return fetchPopularStart(state, action);
+    case actions.GET_POPULAR_SUCCESS:
+      return fetchPopularSuccess(state, action);
+    case actions.GET_POPULAR_FAIL:
+      return fetchPopularFail(state, action);
     default:
       return state;
   }
