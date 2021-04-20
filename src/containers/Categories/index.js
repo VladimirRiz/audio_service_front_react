@@ -18,7 +18,20 @@ class Categories extends Component {
   };
 
   setGenreButton = () => {
-    return this.props.categories.map((category) => (
+    return this.props.categories['genre'].map((category) => (
+      <ToggleButton
+        variant="secondary"
+        key={category}
+        value={category}
+        onClick={this.getCategory.bind(this, category)}
+      >
+        {category}
+      </ToggleButton>
+    ));
+  };
+
+  setOtherCategories = () => {
+    return this.props.categories['other'].map((category) => (
       <ToggleButton
         variant="secondary"
         key={category}
@@ -43,15 +56,27 @@ class Categories extends Component {
     return (
       <Container className="mt-5">
         <h1>Categories</h1>
-        <Row className="d-flex flex-column justify-content-between">
-          <h4>Music genre:</h4>
-          <ToggleButtonGroup
-            type="radio"
-            name="options"
-            aria-label="Basic example"
-          >
-            {this.setGenreButton()}
-          </ToggleButtonGroup>
+        <Row className="d-flex  justify-content-between">
+          <div>
+            <h4>Music genre:</h4>
+            <ToggleButtonGroup
+              type="radio"
+              name="options"
+              aria-label="Basic example"
+            >
+              {this.setGenreButton()}
+            </ToggleButtonGroup>
+          </div>
+          <div>
+            <h4>Other category:</h4>
+            <ToggleButtonGroup
+              type="radio"
+              name="options"
+              aria-label="Basic example"
+            >
+              {this.setOtherCategories()}
+            </ToggleButtonGroup>
+          </div>
         </Row>
         <Row className="mt-5">{categoryItem}</Row>
       </Container>

@@ -1,5 +1,6 @@
 import { Row, Col, Button } from 'react-bootstrap';
 import { Link } from 'react-router-dom';
+import { AiOutlineDelete, AiFillEdit } from 'react-icons/ai';
 import './style.css';
 
 const Post = (props) => {
@@ -13,6 +14,7 @@ const Post = (props) => {
             Your browser does not support the audio element.
           </audio>
         </div>
+
         <div className="d-flex  justify-content-between">
           <Link className="Post_button More_btn" to={props.link}>
             Show More
@@ -22,13 +24,14 @@ const Post = (props) => {
             onClick={props.onEdit.bind(this, props.link)}
             to={`/add-post/${props.link}`}
           >
-            Edit
+            <AiFillEdit />
           </Link>
           <Button
             variant="danger"
+            className="d-flex align-items-center"
             onClick={props.delete.bind(this, props.link)}
           >
-            Delete
+            <AiOutlineDelete />
           </Button>
         </div>
       </Col>
