@@ -20,10 +20,14 @@ export const fetchPostsFail = (err) => {
   };
 };
 
-export const fetchPosts = () => {
+export const fetchPosts = (token) => {
   return (dispatch) => {
     dispatch(fetchPostsStart());
-    fetch('http://localhost:8080/feed/posts')
+    fetch('http://localhost:8080/feed/posts', {
+      headers: {
+        Authorization: `Bearer ${token}`,
+      },
+    })
       .then((res) => {
         return res.json();
       })
