@@ -11,13 +11,13 @@ function App() {
   return (
     <Layout>
       <Switch>
-        <Route path="/categories" exact component={Categories} />
-        <Route path="/add-post" exact component={AddAudio} />
-        <Route path="/add-post/:postId" exact component={AddAudio} />
+        <Route path="/categories" component={Categories} />
+        <Route path="/add-post" component={AddAudio} />
+        <Route path="/login" component={() => <h1>Login</h1>} />
+        <Route path="/signup" component={() => <h1>Sign Up</h1>} />
+        <Route path="/add-post/:postId" component={AddAudio} />
         <Route path="/:postId" component={SinglePost} />
         <Route path="/" exact component={Posts} />
-
-        {/* <AddAudio /> */}
       </Switch>
     </Layout>
   );

@@ -13,7 +13,7 @@ import {
 
 import Post from '../../components/Post';
 import Spinner from '../../UI/Spinner';
-import { Container, Row, Form, FormControl, Button } from 'react-bootstrap';
+import { Container, Row, Form, FormControl } from 'react-bootstrap';
 
 class Posts extends Component {
   state = {
