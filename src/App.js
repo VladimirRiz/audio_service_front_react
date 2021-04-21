@@ -6,6 +6,8 @@ import Layout from './hoc/Layout';
 import Posts from './containers/Posts';
 import SinglePost from './containers/Posts/SinglePost';
 import Categories from './containers/Categories';
+import Login from './containers/Auth/Login';
+import Signup from './containers/Auth/Signup';
 
 function App() {
   return (
@@ -13,8 +15,8 @@ function App() {
       <Switch>
         <Route path="/categories" component={Categories} />
         <Route path="/add-post" component={AddAudio} />
-        <Route path="/login" component={() => <h1>Login</h1>} />
-        <Route path="/signup" component={() => <h1>Sign Up</h1>} />
+        <Route path="/login" component={Login} />
+        <Route path="/signup" component={Signup} />
         <Route path="/add-post/:postId" component={AddAudio} />
         <Route path="/:postId" component={SinglePost} />
         <Route path="/" exact component={Posts} />
