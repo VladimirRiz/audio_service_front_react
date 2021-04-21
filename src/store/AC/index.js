@@ -4,6 +4,7 @@ export {
   fetchPostsCategory,
   setLike,
   fetchPopular,
+  filter,
 } from './posts';
 export {
   fetchPost,

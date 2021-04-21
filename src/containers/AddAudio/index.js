@@ -129,7 +129,6 @@ class AddAudio extends Component {
   render() {
     const redirect = this.props.redirect ? <Redirect to="/" /> : null;
     const { title, description, category } = this.state;
-    console.log(category);
     const select = CATEGORIES.map((category) => (
       <option key={category} value={category}>
         {category}
@@ -160,7 +159,7 @@ class AddAudio extends Component {
           className="form-control"
           name="category"
           onChange={this.onChangeHandler}
-          value={this.state.templateId}
+          value={category}
         >
           {select}
         </select>

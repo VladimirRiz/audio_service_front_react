@@ -28,3 +28,5 @@ export const GET_POPULAR_FAIL = 'GET_POPULAR_FAIL';
 
 export const SET_POST_LIKE_SUCCESS = 'SET_POST_LIKE_SUCCESS';
 export const SET_POST_LIKE_FAIL = 'SET_POST_LIKE_FAIL';
+
+export const FILTER = 'FILTER';

@@ -106,6 +106,7 @@ export const fetchPopular = () => {
     fetch('http://localhost:8080/feed/likes')
       .then((res) => res.json())
       .then((resData) => {
+        console.log(resData);
         dispatch(fetchPopularSuccess(resData.posts));
       })
       .catch((err) => {
@@ -153,5 +154,12 @@ export const setLike = (postId) => {
         dispatch(setLikeSuccess(resData.post));
       })
       .catch((err) => dispatch(setLikeFail(err)));
+  };
+};
+
+export const filter = (posts) => {
+  return {
+    type: actions.FILTER,
+    posts,
   };
 };

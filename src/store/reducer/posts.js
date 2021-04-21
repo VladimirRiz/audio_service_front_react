@@ -4,6 +4,7 @@ import * as actions from '../AC/actionTypes';
 
 const INITIAL_STATE = {
   posts: [],
+  filteredPosts: [],
   loading: false,
   categories: {
     genre: ['Pop', 'Rock', 'Hip-Hop', 'Jazz', 'Latin'],
@@ -16,7 +17,11 @@ const fetchPostsStart = (state, action) => {
 };
 
 const fetchPostsSuccess = (state, action) => {
-  return updateObject(state, { posts: action.posts, loading: false });
+  return updateObject(state, {
+    posts: action.posts,
+    filteredPosts: action.posts,
+    loading: false,
+  });
 };
 
 const fetchPostsFail = (state, action) => {
@@ -61,6 +66,10 @@ const fetchPopularFail = (state, action) => {
   return updateObject(state, { loading: false });
 };
 
+const filter = (state, action) => {
+  return updateObject(state, { filteredPosts: action.posts });
+};
+
 const reducer = (state = INITIAL_STATE, action) => {
   switch (action.type) {
     case actions.FETCH_POSTS_START:
@@ -87,6 +96,8 @@ const reducer = (state = INITIAL_STATE, action) => {
       return fetchPopularSuccess(state, action);
     case actions.GET_POPULAR_FAIL:
       return fetchPopularFail(state, action);
+    case actions.FILTER:
+      return filter(state, action);
     default:
       return state;
   }
