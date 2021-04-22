@@ -30,3 +30,8 @@ export const SET_POST_LIKE_SUCCESS = 'SET_POST_LIKE_SUCCESS';
 export const SET_POST_LIKE_FAIL = 'SET_POST_LIKE_FAIL';
 
 export const FILTER = 'FILTER';
+
+export const AUTH_START = 'AUTH_START';
+export const AUTH_SUCCESS = 'AUTH_SUCCESS';
+export const AUTH_FAIL = 'AUTH_FAIL';
+export const AUTH_LOGOUT = 'AUTH_LOGOUT';

@@ -13,3 +13,5 @@ export {
   editPostStart,
   editPostFinish,
 } from './post';
+
+export { auth } from './auth';

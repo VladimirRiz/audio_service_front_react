@@ -1,7 +1,10 @@
 import React, { Component } from 'react';
+import { connect } from 'react-redux';
 
 import { required, length, email } from '../../util/validators';
 import { Form, Button, Container, Row } from 'react-bootstrap';
+
+import { auth } from '../../store/AC';
 
 import Spinner from '../../UI/Spinner';
 import Auth from './Auth';
@@ -29,7 +32,6 @@ class Signup extends Component {
       },
     },
     formIsValid: false,
-    loading: false,
   };
 
   inputChangeHandler = ({ target }) => {
@@ -49,7 +51,6 @@ class Signup extends Component {
       };
       let formIsValid = true;
       for (const inputName in updatedForm) {
-        console.log(updatedForm[inputName].valid);
         formIsValid = formIsValid && updatedForm[inputName].valid;
       }
       return {
@@ -75,52 +76,29 @@ class Signup extends Component {
 
   onSignUp = (e) => {
     e.preventDefault();
-
-    this.setState({
-      loading: true,
-    });
-    fetch('http://localhost:8080/auth/signup', {
+    const { email, password, name } = this.state.signupForm;
+    const formData = new FormData();
+    formData.append('email', email.value);
+    formData.append('password', password.value);
+    formData.append('name', name.value);
+    const settings = {
       method: 'PUT',
-      headers: {
-        'Content-Type': 'application/json',
-      },
-      body: JSON.stringify({
-        name: this.state.signupForm.name.value,
-        email: this.state.signupForm.email.value,
-        password: this.state.signupForm.password.value,
-      }),
-    })
-      .then((res) => {
-        if (res.status === 422) {
-          throw new Error('Validation failed.');
-        }
-        if (res.status !== 200 && res.status !== 201) {
-          console.log('Error!');
-          throw new Error('Could not authenticate you!');
-        }
-        return res.json();
-      })
-      .then((resData) => {
-        console.log(resData);
-        this.setState({
-          loading: false,
-        });
-      })
-      .catch((err) => {
-        this.setState({
-          loading: true,
-        });
-        console.log(err);
-      });
+      body: formData,
+      // headers: {
+      //   'Content-Type': 'application/json',
+      // },
+    };
+    this.props.auth('http://localhost:8080/auth/signup', settings);
   };
 
-  render() {
+  isLoading = () => {
     const { email, password, name } = this.state.signupForm;
-    let form = this.state.loading ? (
+    return this.props.loading ? (
       <Spinner />
     ) : (
       <Container className="mt-5">
         <Row className="m-5 justify-content-center">
+          {/* {this.isError()} */}
           <Form onSubmit={this.onSignUp}>
             <Form.Group controlId="formBasicEmail">
               <Form.Label>Email address</Form.Label>
@@ -170,8 +148,24 @@ class Signup extends Component {
         </Row>
       </Container>
     );
-    return <Auth>{form}</Auth>;
+  };
+
+  isError = () => {
+    return this.props.error ? this.props.error : null;
+  };
+
+  render() {
+    return <Auth>{this.isLoading()}</Auth>;
   }
 }
 
-export default Signup;
+const mapStateToProps = (state) => {
+  return {
+    loading: state.auth.loading,
+    error: state.auth.error,
+  };
+};
+
+const mapDispatchToProps = { auth };
+
+export default connect(mapStateToProps, mapDispatchToProps)(Signup);

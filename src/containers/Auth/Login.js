@@ -1,5 +1,8 @@
 import React, { Component } from 'react';
 
+import { connect } from 'react-redux';
+import { auth } from '../../store/AC';
+
 import { required, length, email } from '../../util/validators';
 
 import { Form, Button, Container, Row } from 'react-bootstrap';
@@ -22,11 +25,6 @@ class Login extends Component {
       },
     },
     formIsValid: false,
-    loading: false,
-    isAuth: false,
-    userId: null,
-    token: null,
-    error: null,
   };
 
   inputChangeHandler = ({ target }) => {
@@ -46,7 +44,6 @@ class Login extends Component {
       };
       let formIsValid = true;
       for (const inputName in updatedForm) {
-        console.log(updatedForm[inputName].valid);
         formIsValid = formIsValid && updatedForm[inputName].valid;
       }
       return {
@@ -70,70 +67,72 @@ class Login extends Component {
     });
   };
 
-  setAutoLogout = (milliseconds) => {
-    setTimeout(() => {
-      this.logoutHandler();
-    }, milliseconds);
-  };
-
   onLogin = (e) => {
     e.preventDefault();
-    this.setState({
-      loading: true,
-    });
-    fetch('http://localhost:8080/auth/login', {
+    const { email, password } = this.state.loginForm;
+    const formData = new FormData();
+    formData.append('email', email.value);
+    formData.append('password', password.value);
+    const settings = {
       method: 'POST',
-      headers: {
-        'Content-Type': 'application/json',
-      },
-      body: JSON.stringify({
-        email: this.state.loginForm.email.value,
-        password: this.state.loginForm.password.value,
-      }),
-    })
-      .then((res) => {
-        if (res.status === 422) {
-          throw new Error('Validation failed.');
-        }
-        if (res.status !== 200 && res.status !== 201) {
-          console.log('Error!');
-          throw new Error('Could not authenticate you!');
-        }
-        return res.json();
-      })
-      .then((resData) => {
-        console.log(resData);
-        this.setState({
-          isAuth: true,
-          token: resData.token,
-          loading: false,
-          userId: resData.userId,
-        });
-        localStorage.setItem('token', resData.token);
-        localStorage.setItem('userId', resData.userId);
-        const remainingMilliseconds = 60 * 60 * 1000;
-        const expiryDate = new Date(
-          new Date().getTime() + remainingMilliseconds
-        );
-        localStorage.setItem('expiryDate', expiryDate.toISOString());
-        this.setAutoLogout(remainingMilliseconds);
-      })
-      .catch((err) => {
-        console.log(err);
-        this.setState({
-          isAuth: false,
-          loading: false,
-          error: err,
-        });
-      });
+      body: formData,
+      // headers: {
+      //   'Content-Type': 'application/json',
+      // },
+    };
+    this.props.auth('http://localhost:8080/auth/login', settings);
+    // this.setState({
+    //   loading: true,
+    // });
+    // fetch('http://localhost:8080/auth/login')
+    //   .then((res) => {
+    //     if (res.status === 422) {
+    //       throw new Error('Validation failed.');
+    //     }
+    //     if (res.status !== 200 && res.status !== 201) {
+    //       console.log('Error!');
+    //       throw new Error('Could not authenticate you!');
+    //     }
+    //     return res.json();
+    //   })
+    //   .then((resData) => {
+    //     console.log(resData);
+    //     this.setState({
+    //       isAuth: true,
+    //       token: resData.token,
+    //       loading: false,
+    //       userId: resData.userId,
+    //     });
+    //     localStorage.setItem('token', resData.token);
+    //     localStorage.setItem('userId', resData.userId);
+    //     const remainingMilliseconds = 60 * 60 * 1000;
+    //     const expiryDate = new Date(
+    //       new Date().getTime() + remainingMilliseconds
+    //     );
+    //     localStorage.setItem('expiryDate', expiryDate.toISOString());
+    //     this.setAutoLogout(remainingMilliseconds);
+    //   })
+    //   .catch((err) => {
+    //     console.log(err);
+    //     this.setState({
+    //       isAuth: false,
+    //       loading: false,
+    //       error: err,
+    //     });
+    //   });
   };
 
-  showForm = () => {
+  isError = () => {
+    return this.props.error ? this.props.error.message : null;
+  };
+
+  isLoading = () => {
     const { email, password } = this.state.loginForm;
-    return this.state.loading ? (
+    return this.props.loading ? (
       <Spinner />
     ) : (
       <Form onSubmit={this.onLogin}>
+        <h1>{this.isError()}</h1>
         <Form.Group controlId="formBasicEmail">
           <Form.Label>Email address</Form.Label>
           <Form.Control
@@ -174,10 +173,19 @@ class Login extends Component {
   render() {
     return (
       <Container className="mt-5">
-        <Row className="m-5 justify-content-center">{this.showForm()}</Row>
+        <Row className="m-5 justify-content-center">{this.isLoading()}</Row>
       </Container>
     );
   }
 }
 
-export default Login;
+const mapStateToProps = (state) => {
+  return {
+    loading: state.auth.loading,
+    error: state.auth.error,
+  };
+};
+
+const mapDispatchToProps = { auth };
+
+export default connect(mapStateToProps, mapDispatchToProps)(Login);

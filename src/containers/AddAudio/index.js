@@ -73,6 +73,7 @@ class AddAudio extends Component {
       //   Authorization: `Bearer ${this.props.token}`,
       // },
     };
+    console.log(formData);
     this.props.createPost(url, settings);
   };
 
