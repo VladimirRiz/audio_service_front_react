@@ -1,4 +1,7 @@
+import { useEffect } from 'react';
 import { Switch, Route } from 'react-router-dom';
+import { connect } from 'react-redux';
+import { authCheckState } from './store/AC';
 
 import './App.css';
 import AddAudio from './containers/AddAudio';
@@ -10,7 +13,10 @@ import Login from './containers/Auth/Login';
 import Signup from './containers/Auth/Signup';
 import Logout from './containers/Auth/Logout';
 
-function App() {
+function App(props) {
+  useEffect(() => {
+    props.authCheckState();
+  });
   return (
     <Layout>
       <Switch>
@@ -27,4 +33,6 @@ function App() {
   );
 }
 
-export default App;
+const mapDispatchToProps = { authCheckState };
+
+export default connect(null, mapDispatchToProps)(App);
