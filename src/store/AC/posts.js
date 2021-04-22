@@ -149,9 +149,14 @@ export const setLikeFail = (error) => {
   };
 };
 
-export const setLike = (postId) => {
+export const setLike = (postId, token) => {
   return (dispatch) => {
-    fetch(`http://localhost:8080/feed/post/likes/${postId}`, { method: 'PUT' })
+    fetch(`http://localhost:8080/feed/post/likes/${postId}`, {
+      method: 'PUT',
+      headers: {
+        Authorization: `Bearer ${token}`,
+      },
+    })
       .then((res) => res.json())
       .then((resData) => {
         // console.log(resData);

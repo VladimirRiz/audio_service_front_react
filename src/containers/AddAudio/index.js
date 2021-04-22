@@ -65,15 +65,13 @@ class AddAudio extends Component {
       url = `http://localhost:8080/feed/post/${this.props.editPost._id}`;
       method = 'PUT';
     }
-    console.log(url, method);
     const settings = {
       method,
       body: formData,
-      // headers: {
-      //   Authorization: `Bearer ${this.props.token}`,
-      // },
+      headers: {
+        Authorization: `Bearer ${this.props.token}`,
+      },
     };
-    console.log(formData);
     this.props.createPost(url, settings);
   };
 
@@ -109,7 +107,6 @@ class AddAudio extends Component {
   }
 
   onChangeHandler = ({ target }, id) => {
-    console.log(target.name);
     if (target.type === 'file') {
       this.setState({
         ...this.state,
@@ -164,16 +161,6 @@ class AddAudio extends Component {
         >
           {select}
         </select>
-        {/* <select
-          value={category}
-          name="category"
-          onChange={this.onChangeHandler}
-        >
-          <option value="grapefruit">Grapefruit</option>
-          <option value="lime">Lime</option>
-          <option value="coconut">Coconut</option>
-          <option value="mango">Mango</option>
-        </select> */}
         <Form.Group>
           <Form.Label>Description</Form.Label>
           <Form.Control
@@ -216,6 +203,7 @@ const mapStateToProps = (state) => {
     redirect: state.post.redirect,
     isEditPost: state.post.isEditPost,
     editPost: state.post.editPost,
+    token: state.auth.token,
   };
 };
 

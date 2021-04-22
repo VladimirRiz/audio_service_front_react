@@ -19,12 +19,20 @@ const Toolbar = (props) => (
         </Nav.Link>
       </Nav>
       <Nav className="justify-content-end">
-        <Nav.Link as={NavLink} to="/login">
-          Login
-        </Nav.Link>
-        <Nav.Link as={NavLink} to="/signup">
-          SignUp
-        </Nav.Link>
+        {!props.isAuth ? (
+          <Aux>
+            <Nav.Link as={NavLink} to="/login">
+              Login
+            </Nav.Link>
+            <Nav.Link as={NavLink} to="/signup">
+              SignUp
+            </Nav.Link>
+          </Aux>
+        ) : (
+          <Nav.Link as={NavLink} to="/logout">
+            Logout
+          </Nav.Link>
+        )}
       </Nav>
     </Navbar>
   </Aux>

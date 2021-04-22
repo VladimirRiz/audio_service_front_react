@@ -48,7 +48,7 @@ const setLikeSuccess = (state, action) => {
   );
   const updatedPosts = [...state.posts];
   updatedPosts[findIndex] = action.post;
-  return updateObject(state, { posts: updatedPosts });
+  return updateObject(state, { filteredPosts: updatedPosts });
 };
 const setLikeFail = (state, action) => {
   return updateObject(state);

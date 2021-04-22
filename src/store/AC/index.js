@@ -14,4 +14,4 @@ export {
   editPostFinish,
 } from './post';
 
-export { auth } from './auth';
+export { auth, logout } from './auth';

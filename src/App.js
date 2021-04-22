@@ -8,6 +8,7 @@ import SinglePost from './containers/Posts/SinglePost';
 import Categories from './containers/Categories';
 import Login from './containers/Auth/Login';
 import Signup from './containers/Auth/Signup';
+import Logout from './containers/Auth/Logout';
 
 function App() {
   return (
@@ -16,6 +17,7 @@ function App() {
         <Route path="/categories" component={Categories} />
         <Route path="/add-post" component={AddAudio} />
         <Route path="/login" component={Login} />
+        <Route path="/logout" component={Logout} />
         <Route path="/signup" component={Signup} />
         <Route path="/add-post/:postId" component={AddAudio} />
         <Route path="/:postId" component={SinglePost} />

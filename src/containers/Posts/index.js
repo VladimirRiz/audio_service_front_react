@@ -26,10 +26,6 @@ class Posts extends Component {
     this.props.createPostInit();
     this.props.editPostFinish();
     this.props.fetchPosts(this.props.token);
-    this.setState({
-      postsDefault: this.props.posts,
-      filtered: this.props.posts,
-    });
   }
 
   onDelete = (postId) => {
@@ -44,7 +40,7 @@ class Posts extends Component {
   };
 
   setLike = (postId) => {
-    this.props.setLike(postId);
+    this.props.setLike(postId, this.props.token);
   };
 
   onSearch = ({ target }) => {
@@ -58,10 +54,10 @@ class Posts extends Component {
   };
 
   render() {
-    const { posts, loading } = this.props;
+    const { posts, filteredPosts, loading } = this.props;
     let audioPosts =
       posts.length > 0 ? (
-        this.props.filteredPosts.map((post) => {
+        filteredPosts.map((post) => {
           return (
             <Post
               key={post._id}
