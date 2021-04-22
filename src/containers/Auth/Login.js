@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 
 import { connect } from 'react-redux';
+import { Redirect } from 'react-router-dom';
 import { auth } from '../../store/AC';
 
 import { required, length, email } from '../../util/validators';
@@ -76,50 +77,8 @@ class Login extends Component {
     const settings = {
       method: 'POST',
       body: formData,
-      // headers: {
-      //   'Content-Type': 'application/json',
-      // },
     };
     this.props.auth('http://localhost:8080/auth/login', settings);
-    // this.setState({
-    //   loading: true,
-    // });
-    // fetch('http://localhost:8080/auth/login')
-    //   .then((res) => {
-    //     if (res.status === 422) {
-    //       throw new Error('Validation failed.');
-    //     }
-    //     if (res.status !== 200 && res.status !== 201) {
-    //       console.log('Error!');
-    //       throw new Error('Could not authenticate you!');
-    //     }
-    //     return res.json();
-    //   })
-    //   .then((resData) => {
-    //     console.log(resData);
-    //     this.setState({
-    //       isAuth: true,
-    //       token: resData.token,
-    //       loading: false,
-    //       userId: resData.userId,
-    //     });
-    //     localStorage.setItem('token', resData.token);
-    //     localStorage.setItem('userId', resData.userId);
-    //     const remainingMilliseconds = 60 * 60 * 1000;
-    //     const expiryDate = new Date(
-    //       new Date().getTime() + remainingMilliseconds
-    //     );
-    //     localStorage.setItem('expiryDate', expiryDate.toISOString());
-    //     this.setAutoLogout(remainingMilliseconds);
-    //   })
-    //   .catch((err) => {
-    //     console.log(err);
-    //     this.setState({
-    //       isAuth: false,
-    //       loading: false,
-    //       error: err,
-    //     });
-    //   });
   };
 
   isError = () => {
@@ -171,8 +130,10 @@ class Login extends Component {
   };
 
   render() {
+    const authRedirect = this.props.isAuth ? <Redirect to="/" /> : null;
     return (
       <Container className="mt-5">
+        {authRedirect}
         <Row className="m-5 justify-content-center">{this.isLoading()}</Row>
       </Container>
     );
@@ -183,6 +144,7 @@ const mapStateToProps = (state) => {
   return {
     loading: state.auth.loading,
     error: state.auth.error,
+    isAuth: state.auth.token !== null,
   };
 };
 

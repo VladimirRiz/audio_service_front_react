@@ -84,11 +84,12 @@ class Signup extends Component {
     const settings = {
       method: 'PUT',
       body: formData,
-      // headers: {
-      //   'Content-Type': 'application/json',
-      // },
     };
     this.props.auth('http://localhost:8080/auth/signup', settings);
+  };
+
+  isError = () => {
+    return this.props.error ? this.props.error.message : null;
   };
 
   isLoading = () => {
@@ -98,7 +99,7 @@ class Signup extends Component {
     ) : (
       <Container className="mt-5">
         <Row className="m-5 justify-content-center">
-          {/* {this.isError()} */}
+          {this.isError()}
           <Form onSubmit={this.onSignUp}>
             <Form.Group controlId="formBasicEmail">
               <Form.Label>Email address</Form.Label>
@@ -148,10 +149,6 @@ class Signup extends Component {
         </Row>
       </Container>
     );
-  };
-
-  isError = () => {
-    return this.props.error ? this.props.error : null;
   };
 
   render() {

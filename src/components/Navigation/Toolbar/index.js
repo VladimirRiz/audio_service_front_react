@@ -11,12 +11,14 @@ const Toolbar = (props) => (
         <Nav.Link as={NavLink} exact to="/">
           Home
         </Nav.Link>
-        <Nav.Link as={NavLink} to="/add-post">
-          Add Audio
-        </Nav.Link>
         <Nav.Link as={NavLink} to="/categories">
           Categories
         </Nav.Link>
+        {props.isAuth ? (
+          <Nav.Link as={NavLink} to="/add-post">
+            Add Audio
+          </Nav.Link>
+        ) : null}
       </Nav>
       <Nav className="justify-content-end">
         {!props.isAuth ? (
