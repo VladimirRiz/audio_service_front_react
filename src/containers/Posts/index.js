@@ -25,7 +25,7 @@ class Posts extends Component {
   componentDidMount() {
     this.props.createPostInit();
     this.props.editPostFinish();
-    this.props.fetchPosts();
+    this.props.fetchPosts(this.props.token);
     this.setState({
       postsDefault: this.props.posts,
       filtered: this.props.posts,
@@ -107,6 +107,7 @@ const mapStateToProps = (state) => {
     filteredPosts: state.posts.filteredPosts,
     loading: state.posts.loading,
     editPost: state.post,
+    token: state.auth.token,
   };
 };
 
