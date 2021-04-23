@@ -6,11 +6,12 @@ export const authStart = () => {
   };
 };
 
-export const authSuccess = (token, userId) => {
+export const authSuccess = (token, userId, status) => {
   return {
     type: actions.AUTH_SUCCESS,
     token,
     userId,
+    status,
   };
 };
 
@@ -61,7 +62,7 @@ export const auth = (url, settings) => {
         localStorage.setItem('token', resData.token);
         localStorage.setItem('expirationDate', expirationDate);
         localStorage.setItem('userId', resData.userId);
-        dispatch(authSuccess(resData.token, resData.userId));
+        dispatch(authSuccess(resData.token, resData.userId, resData.status));
         dispatch(setAutoLogout(resData.expiresIn));
       })
       .catch((err) => {

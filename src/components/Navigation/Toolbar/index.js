@@ -14,7 +14,7 @@ const Toolbar = (props) => (
         <Nav.Link as={NavLink} to="/categories">
           Categories
         </Nav.Link>
-        {props.isAuth ? (
+        {props.isAuth && props.status === 'Admin' ? (
           <Nav.Link as={NavLink} to="/add-post">
             Add Audio
           </Nav.Link>

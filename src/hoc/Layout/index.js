@@ -5,9 +5,13 @@ import { connect } from 'react-redux';
 
 class Layout extends Component {
   render() {
+    console.log(this.props.status);
     return (
       <Aux>
-        <Toolbar isAuth={this.props.isAuthenticated} />
+        <Toolbar
+          isAuth={this.props.isAuthenticated}
+          status={this.props.status}
+        />
         <main>{this.props.children}</main>
       </Aux>
     );
@@ -17,6 +21,7 @@ class Layout extends Component {
 const mapStateToProps = (state) => {
   return {
     isAuthenticated: state.auth.token !== null,
+    status: state.auth.status,
   };
 };
 
