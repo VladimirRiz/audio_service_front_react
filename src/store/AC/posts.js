@@ -104,10 +104,10 @@ export const fetchPopularFail = (err) => {
   };
 };
 
-export const fetchPopular = () => {
+export const fetchPopular = (link) => {
   return (dispatch) => {
     dispatch(fetchPopularStart());
-    fetch('http://localhost:8080/feed/likes')
+    fetch(`http://localhost:8080/feed/${link}`)
       .then((res) => res.json())
       .then((resData) => {
         console.log(resData);
@@ -193,6 +193,7 @@ export const setPlays = (postId, token) => {
     })
       .then((res) => res.json())
       .then((resData) => {
+        console.log(resData);
         dispatch(setPlaysSuccess(resData.post));
       })
       .catch((err) => dispatch(setPlaysFail(err)));

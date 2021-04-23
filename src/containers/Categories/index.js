@@ -30,19 +30,19 @@ class Categories extends Component {
     ));
   };
 
-  getPopular = () => {
-    this.props.fetchPopular();
+  getPopular = (link) => {
+    this.props.fetchPopular(link);
   };
 
   setOtherCategories = () => {
     return this.props.categories['other'].map((category) => (
       <ToggleButton
         variant="secondary"
-        key={category}
-        value={category}
-        onClick={this.getPopular.bind(this, category)}
+        key={category.label}
+        value={category.label}
+        onClick={this.getPopular.bind(this, category.link)}
       >
-        {category}
+        {category.label}
       </ToggleButton>
     ));
   };

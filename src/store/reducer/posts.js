@@ -8,7 +8,10 @@ const INITIAL_STATE = {
   loading: false,
   categories: {
     genre: ['Pop', 'Rock', 'Hip-Hop', 'Jazz', 'Latin'],
-    other: ['Popular', 'Most Listening'],
+    other: [
+      { label: 'Popular', link: 'likes' },
+      { label: 'Most Listening', link: 'plays' },
+    ],
   },
 };
 
