@@ -8,6 +8,7 @@ import {
   editPostStart,
   editPostFinish,
   setLike,
+  setPlays,
   filter,
 } from '../../store/AC';
 
@@ -29,7 +30,7 @@ class Posts extends Component {
   }
 
   onDelete = (postId) => {
-    this.props.removePost(postId);
+    this.props.removePost(postId, this.props.token);
   };
 
   onEdit = (postId) => {
@@ -41,6 +42,10 @@ class Posts extends Component {
 
   setLike = (postId) => {
     this.props.setLike(postId, this.props.token);
+  };
+
+  setPlays = (postId) => {
+    this.props.setPlays(postId, this.props.token);
   };
 
   onSearch = ({ target }) => {
@@ -55,6 +60,7 @@ class Posts extends Component {
 
   render() {
     const { posts, filteredPosts, loading } = this.props;
+
     let audioPosts =
       posts.length > 0 ? (
         filteredPosts.map((post) => {
@@ -68,7 +74,9 @@ class Posts extends Component {
               delete={this.onDelete}
               onEdit={this.onEdit}
               likes={post.likes}
+              plays={post.plays}
               setLike={this.setLike.bind(this, post._id)}
+              setPlays={this.setPlays.bind(this, post._id)}
             />
           );
         })
@@ -114,6 +122,7 @@ const mapDispatchToProps = {
   editPostStart,
   editPostFinish,
   setLike,
+  setPlays,
   filter,
 };
 

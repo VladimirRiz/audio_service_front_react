@@ -119,11 +119,14 @@ export const fetchPopular = () => {
   };
 };
 
-export const removePost = (postId) => {
+export const removePost = (postId, token) => {
   return (dispatch) => {
     dispatch(fetchPostsStart());
     fetch(`http://localhost:8080/feed/post/${postId}`, {
       method: 'DELETE',
+      headers: {
+        Authorization: `Bearer ${token}`,
+      },
     })
       .then((res) => {
         return res.json();
@@ -159,10 +162,40 @@ export const setLike = (postId, token) => {
     })
       .then((res) => res.json())
       .then((resData) => {
-        // console.log(resData);
+        console.log(resData);
         dispatch(setLikeSuccess(resData.post));
       })
       .catch((err) => dispatch(setLikeFail(err)));
+  };
+};
+
+export const setPlaysSuccess = (post) => {
+  return {
+    type: actions.SET_AUDIO_LISTEN_SUCCESS,
+    post: post,
+  };
+};
+
+export const setPlaysFail = (post) => {
+  return {
+    type: actions.SET_AUDIO_LISTEN_FAIL,
+    post: post,
+  };
+};
+
+export const setPlays = (postId, token) => {
+  return (dispatch) => {
+    fetch(`http://localhost:8080/feed/post/plays/${postId}`, {
+      method: 'PUT',
+      headers: {
+        Authorization: `Bearer ${token}`,
+      },
+    })
+      .then((res) => res.json())
+      .then((resData) => {
+        dispatch(setPlaysSuccess(resData.post));
+      })
+      .catch((err) => dispatch(setPlaysFail(err)));
   };
 };
 

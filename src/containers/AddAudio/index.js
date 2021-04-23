@@ -53,12 +53,14 @@ class AddAudio extends Component {
     e.preventDefault();
     const { title, audio, description, category } = this.state;
     const likes = this.props.editPost ? this.props.editPost.likes : 0;
+    const plays = this.props.editPost ? this.props.editPost.plays : 0;
     const formData = new FormData();
     formData.append('title', title.value);
     formData.append('audio', audio.value);
     formData.append('description', description.value);
     formData.append('category', category.value);
     formData.append('likes', likes);
+    formData.append('plays', plays);
     let url = 'http://localhost:8080/feed/post';
     let method = 'POST';
     if (this.props.editPost) {

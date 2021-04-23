@@ -2,6 +2,7 @@ import { Row, Col, Button } from 'react-bootstrap';
 import { Link } from 'react-router-dom';
 import { AiOutlineDelete, AiFillEdit } from 'react-icons/ai';
 import { FaRegHeart } from 'react-icons/fa';
+import Player from '../../containers/Player';
 import './style.css';
 
 const Post = (props) => {
@@ -10,10 +11,8 @@ const Post = (props) => {
       <Col className="d-flex flex-column justify-content-between">
         <h4> {props.title}</h4>
         <div className="Audio">
-          <audio controls>
-            <source src={props.audio} type="audio/mpeg" />
-            Your browser does not support the audio element.
-          </audio>
+          <Player audio={props.audio} setPlays={props.setPlays} />
+          <p>{props.plays} plays</p>
         </div>
         <div className="mb-3 d-flex  justify-content-between align-items-center">
           <div className="Likes" onClick={props.setLike}>

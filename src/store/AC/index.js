@@ -3,6 +3,7 @@ export {
   removePost,
   fetchPostsCategory,
   setLike,
+  setPlays,
   fetchPopular,
   filter,
 } from './posts';

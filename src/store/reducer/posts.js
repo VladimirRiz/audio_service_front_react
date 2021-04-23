@@ -47,10 +47,26 @@ const setLikeSuccess = (state, action) => {
     (post) => post._id === action.post._id
   );
   const updatedPosts = [...state.posts];
+  const audioUrl = updatedPosts[findIndex].audio;
   updatedPosts[findIndex] = action.post;
+  updatedPosts[findIndex].audio = audioUrl;
   return updateObject(state, { filteredPosts: updatedPosts });
 };
 const setLikeFail = (state, action) => {
+  return updateObject(state);
+};
+
+const setPlaysSuccess = (state, action) => {
+  const findIndex = state.posts.findIndex(
+    (post) => post._id === action.post._id
+  );
+  const updatedPosts = [...state.posts];
+  const audioUrl = updatedPosts[findIndex].audio;
+  updatedPosts[findIndex] = action.post;
+  updatedPosts[findIndex].audio = audioUrl;
+  return updateObject(state, { filteredPosts: updatedPosts });
+};
+const setPlaysFail = (state, action) => {
   return updateObject(state);
 };
 
@@ -90,6 +106,10 @@ const reducer = (state = INITIAL_STATE, action) => {
       return setLikeSuccess(state, action);
     case actions.SET_POST_LIKE_FAIL:
       return setLikeFail(state, action);
+    case actions.SET_AUDIO_LISTEN_SUCCESS:
+      return setPlaysSuccess(state, action);
+    case actions.SET_AUDIO_LISTEN_FAIL:
+      return setPlaysFail(state, action);
     case actions.GET_POPULAR_START:
       return fetchPopularStart(state, action);
     case actions.GET_POPULAR_SUCCESS:
