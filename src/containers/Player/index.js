@@ -44,12 +44,7 @@ class Player extends Component {
             this.audioRef = input;
           }}
           src={this.props.audio}
-          //   style={{ display: 'none' }}
         />
-
-        {/* <audio controls>
-          <source src={this.props.audio} />
-        </audio> */}
       </Aux>
     );
   }

@@ -64,6 +64,12 @@ class Posts extends Component {
     let audioPosts =
       posts.length > 0 ? (
         filteredPosts.map((post) => {
+          let isLike = null;
+          if (this.props.userId) {
+            isLike = post.likedBy.find((id) => {
+              return id.toString() === this.props.userId.toString();
+            });
+          }
           return (
             <Post
               key={post._id}
@@ -74,6 +80,7 @@ class Posts extends Component {
               delete={this.onDelete}
               onEdit={this.onEdit}
               likes={post.likes}
+              isLike={isLike}
               plays={post.plays}
               setLike={this.setLike.bind(this, post._id)}
               setPlays={this.setPlays.bind(this, post._id)}
@@ -86,6 +93,7 @@ class Posts extends Component {
     if (loading) {
       audioPosts = <Spinner animation="grow" variant="info" />;
     }
+    // console.log(this.props.userId);
     return (
       <Container className="mt-5">
         <Row className="m-5">
@@ -112,6 +120,7 @@ const mapStateToProps = (state) => {
     loading: state.posts.loading,
     editPost: state.post,
     token: state.auth.token,
+    userId: state.auth.userId,
   };
 };
 

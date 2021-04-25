@@ -62,6 +62,7 @@ export const auth = (url, settings) => {
         localStorage.setItem('token', resData.token);
         localStorage.setItem('expirationDate', expirationDate);
         localStorage.setItem('userId', resData.userId);
+        localStorage.setItem('status', resData.status);
         dispatch(authSuccess(resData.token, resData.userId, resData.status));
         dispatch(setAutoLogout(resData.expiresIn));
       })
@@ -75,13 +76,15 @@ export const auth = (url, settings) => {
 export const authCheckState = () => {
   return (dispatch) => {
     const token = localStorage.getItem('token');
+    // console.log(token);
     if (!token) return dispatch(logout());
     const expirationDate = new Date(localStorage.getItem('expirationDate'));
     // if (expirationDate <= new Date()) return dispatch(logout());
     const userId = localStorage.getItem('userId');
-    dispatch(authSuccess(token, userId));
-    dispatch(
-      setAutoLogout(expirationDate.getSeconds() - new Date().getSeconds())
-    );
+    const status = localStorage.getItem('status');
+    dispatch(authSuccess(token, userId, status));
+    // dispatch(
+    //   setAutoLogout(expirationDate.getSeconds() - new Date().getSeconds())
+    // );
   };
 };

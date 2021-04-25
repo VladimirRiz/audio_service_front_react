@@ -35,16 +35,23 @@ class Categories extends Component {
   };
 
   setOtherCategories = () => {
-    return this.props.categories['other'].map((category) => (
-      <ToggleButton
-        variant="secondary"
-        key={category.label}
-        value={category.label}
-        onClick={this.getPopular.bind(this, category.link)}
-      >
-        {category.label}
-      </ToggleButton>
-    ));
+    return this.props.categories['other'].map((category) => {
+      if (category.label === 'Liked By You' && !this.props.isAuth) return null;
+      const link =
+        category.label !== 'Liked By You'
+          ? this.getPopular.bind(this, category.link)
+          : this.getPopular.bind(this, `${category.link}/${this.props.userId}`);
+      return (
+        <ToggleButton
+          variant="secondary"
+          key={category.label}
+          value={category.label}
+          onClick={link}
+        >
+          {category.label}
+        </ToggleButton>
+      );
+    });
   };
 
   showItems = () => {
@@ -93,6 +100,8 @@ const mapStateToProps = (state) => {
     posts: state.posts.posts,
     categories: state.posts.categories,
     loading: state.posts.loading,
+    isAuth: state.auth.token !== null,
+    userId: state.auth.userId,
   };
 };
 

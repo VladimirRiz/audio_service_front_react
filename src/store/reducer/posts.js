@@ -11,6 +11,7 @@ const INITIAL_STATE = {
     other: [
       { label: 'Popular', link: 'likes' },
       { label: 'Most Listening', link: 'plays' },
+      { label: 'Liked By You', link: 'favorite' },
     ],
   },
 };
