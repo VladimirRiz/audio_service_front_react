@@ -13,6 +13,7 @@ export {
   createPostInit,
   editPostStart,
   editPostFinish,
+  setComment,
 } from './post';
 
 export { auth, logout, authCheckState } from './auth';

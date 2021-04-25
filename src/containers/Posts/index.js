@@ -84,6 +84,7 @@ class Posts extends Component {
               plays={post.plays}
               setLike={this.setLike.bind(this, post._id)}
               setPlays={this.setPlays.bind(this, post._id)}
+              status={this.props.status}
             />
           );
         })
@@ -121,6 +122,7 @@ const mapStateToProps = (state) => {
     editPost: state.post,
     token: state.auth.token,
     userId: state.auth.userId,
+    status: state.auth.status,
   };
 };
 

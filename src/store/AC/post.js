@@ -91,3 +91,42 @@ export const editPostFinish = () => {
     type: actions.EDIT_POST_FINISH,
   };
 };
+
+export const setCommentStart = () => {
+  return {
+    type: actions.SET_COMMENT_START,
+  };
+};
+export const setCommentSuccess = (post) => {
+  return {
+    type: actions.SET_COMMENT_SUCCESS,
+    post,
+  };
+};
+
+export const setCommentFail = (error) => {
+  return {
+    type: actions.SET_COMMENT_FAIL,
+    error,
+  };
+};
+
+export const setComment = (postId, settings) => {
+  return (dispatch) => {
+    dispatch(setCommentStart());
+
+    fetch(`http://localhost:8080/feed/post/comment/${postId}`, settings)
+      .then((res) => res.json())
+      .then((resData) => {
+        console.log(resData);
+        const updatePost = {
+          ...resData.post,
+          audio: `http://localhost:8080/${resData.post.audio}`,
+        };
+        dispatch(setCommentSuccess(updatePost));
+      })
+      .catch((err) => {
+        dispatch(setCommentFail(err));
+      });
+  };
+};

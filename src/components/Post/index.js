@@ -26,22 +26,25 @@ const Post = (props) => {
             Show More
           </Link>
         </div>
-        <div className="d-flex  justify-content-end">
-          <Link
-            className="Post_button Edit"
-            onClick={props.onEdit.bind(this, props.link)}
-            to={`/add-post/${props.link}`}
-          >
-            <AiFillEdit />
-          </Link>
-          <Button
-            variant="danger"
-            className="d-flex align-items-center"
-            onClick={props.delete.bind(this, props.link)}
-          >
-            <AiOutlineDelete />
-          </Button>
-        </div>
+
+        {props.status === 'Admin' ? (
+          <div className="d-flex  justify-content-end">
+            <Link
+              className="Post_button Edit"
+              onClick={props.onEdit.bind(this, props.link)}
+              to={`/add-post/${props.link}`}
+            >
+              <AiFillEdit />
+            </Link>
+            <Button
+              variant="danger"
+              className="d-flex align-items-center"
+              onClick={props.delete.bind(this, props.link)}
+            >
+              <AiOutlineDelete />
+            </Button>{' '}
+          </div>
+        ) : null}
       </Col>
     </Row>
   );
