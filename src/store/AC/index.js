@@ -15,5 +15,6 @@ export {
   editPostFinish,
   setComment,
 } from './post';
+export { setToPlaylist, fetchPlaylists } from './playlists';
 
 export { auth, logout, authCheckState } from './auth';

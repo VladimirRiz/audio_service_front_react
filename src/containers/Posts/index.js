@@ -10,6 +10,8 @@ import {
   setLike,
   setPlays,
   filter,
+  setToPlaylist,
+  fetchPlaylists,
 } from '../../store/AC';
 
 import Post from '../../components/Post';
@@ -27,6 +29,7 @@ class Posts extends Component {
     this.props.createPostInit();
     this.props.editPostFinish();
     this.props.fetchPosts(this.props.token);
+    this.props.fetchPlaylists(this.props.userId);
   }
 
   onDelete = (postId) => {
@@ -59,16 +62,19 @@ class Posts extends Component {
   };
 
   render() {
-    const { posts, filteredPosts, loading } = this.props;
-
+    const { posts, filteredPosts, loading, token, playlists } = this.props;
+    console.log(playlists);
     let audioPosts =
       posts.length > 0 ? (
         filteredPosts.map((post) => {
           let isLike = null;
+          let inPlaylist = null;
           if (this.props.userId) {
             isLike = post.likedBy.find((id) => {
               return id.toString() === this.props.userId.toString();
             });
+            // console.log(post);
+            // inPlaylist =
           }
           return (
             <Post
@@ -85,6 +91,10 @@ class Posts extends Component {
               setLike={this.setLike.bind(this, post._id)}
               setPlays={this.setPlays.bind(this, post._id)}
               status={this.props.status}
+              addToPlaylist={this.props.setToPlaylist.bind(this, [
+                post._id,
+                token,
+              ])}
             />
           );
         })
@@ -123,6 +133,7 @@ const mapStateToProps = (state) => {
     token: state.auth.token,
     userId: state.auth.userId,
     status: state.auth.status,
+    playlists: state.playlists.playlists,
   };
 };
 
@@ -135,6 +146,8 @@ const mapDispatchToProps = {
   setLike,
   setPlays,
   filter,
+  setToPlaylist,
+  fetchPlaylists,
 };
 
 export default connect(mapStateToProps, mapDispatchToProps)(Posts);
