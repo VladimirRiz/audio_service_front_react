@@ -1,5 +1,6 @@
 import { Component } from 'react';
 import Aux from '../../hoc/Aux';
+import { Col } from 'react-bootstrap';
 import './style.css';
 import { MdPlayArrow, MdPause } from 'react-icons/md';
 
@@ -35,7 +36,7 @@ class Player extends Component {
 
   render() {
     return (
-      <Aux>
+      <div>
         {this.isPlay()}
         <audio
           onClick={this.playPreview}
@@ -45,7 +46,7 @@ class Player extends Component {
           }}
           src={this.props.audio}
         />
-      </Aux>
+      </div>
     );
   }
 }

@@ -32,7 +32,6 @@ export const fetchPosts = (token) => {
         return res.json();
       })
       .then((resData) => {
-        console.log(resData);
         const updatedPosts = [];
         resData.posts.map((post) => {
           return updatedPosts.push({

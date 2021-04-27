@@ -1,7 +1,7 @@
 import { Row, Col, Button } from 'react-bootstrap';
 import { Link } from 'react-router-dom';
 import { AiOutlineDelete, AiFillEdit } from 'react-icons/ai';
-import { FaRegHeart, FaHeart, FaPlus } from 'react-icons/fa';
+import { FaRegHeart, FaHeart, FaPlus, FaCheck } from 'react-icons/fa';
 import Player from '../../containers/Player';
 import './style.css';
 
@@ -9,8 +9,14 @@ const Post = (props) => {
   return (
     <Row xs={1} md={1} className="m-2 p-3 border">
       <Col className="d-flex flex-column justify-content-between">
-        <h4> {props.title}</h4>
-        <FaPlus className="Add_Playlist" onClick={props.addToPlaylist} />
+        <Col className="d-flex justify-content-between align-items-center">
+          <h4> {props.title}</h4>
+          {!props.inPlaylist ? (
+            <FaPlus className="Add_Playlist" onClick={props.addToPlaylist} />
+          ) : (
+            <FaCheck />
+          )}
+        </Col>
         <div className="Audio">
           <Player audio={props.audio} setPlays={props.setPlays} />
           <p>{props.plays} plays</p>

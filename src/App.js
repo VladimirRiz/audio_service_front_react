@@ -12,6 +12,7 @@ import Categories from './containers/Categories';
 import Login from './containers/Auth/Login';
 import Signup from './containers/Auth/Signup';
 import Logout from './containers/Auth/Logout';
+import Playlists from './containers/Playlists';
 
 function App(props) {
   useEffect(() => {
@@ -22,6 +23,7 @@ function App(props) {
       <Switch>
         <Route path="/categories" component={Categories} />
         <Route path="/add-post" component={AddAudio} />
+        <Route path="/playlists" component={Playlists} />
         <Route path="/login" component={Login} />
         <Route path="/logout" component={Logout} />
         <Route path="/signup" component={Signup} />

@@ -19,7 +19,6 @@ export const fetchPlaylists = (userId) => {
     fetch(`http://localhost:8080/feed/playlists/${userId}`)
       .then((res) => res.json())
       .then((resData) => {
-        console.log(resData.playlists);
         dispatch(fetchPlaylistsSuccess(resData.playlists));
       })
       .catch((err) => dispatch(fetchPlaylistsFail(err)));
@@ -30,6 +29,20 @@ export const setToPlaylist = ([postId, token]) => {
   return (dispatch) => {
     fetch(`http://localhost:8080/feed/playlists/${postId}`, {
       method: 'PUT',
+      headers: {
+        Authorization: `Bearer ${token}`,
+      },
+    })
+      .then((res) => res.json())
+      .then((resData) => dispatch(fetchPlaylistsSuccess(resData.playlists)))
+      .catch((err) => dispatch(fetchPlaylistsFail(err)));
+  };
+};
+
+export const removeFromPlaylist = ([postId, token]) => {
+  console.log(token);
+  return (dispatch) => {
+    fetch(`http://localhost:8080/feed/playlist-remove/${postId}`, {
       headers: {
         Authorization: `Bearer ${token}`,
       },

@@ -21,8 +21,6 @@ import { Container, Row, Form, FormControl } from 'react-bootstrap';
 class Posts extends Component {
   state = {
     search: '',
-    postsDefault: [],
-    filtered: [],
   };
 
   componentDidMount() {
@@ -63,7 +61,6 @@ class Posts extends Component {
 
   render() {
     const { posts, filteredPosts, loading, token, playlists } = this.props;
-    console.log(playlists);
     let audioPosts =
       posts.length > 0 ? (
         filteredPosts.map((post) => {
@@ -73,8 +70,13 @@ class Posts extends Component {
             isLike = post.likedBy.find((id) => {
               return id.toString() === this.props.userId.toString();
             });
-            // console.log(post);
-            // inPlaylist =
+          }
+          if (playlists) {
+            for (let key in playlists) {
+              inPlaylist = playlists[key].songs.find(
+                (id) => id.toString() === post._id.toString()
+              );
+            }
           }
           return (
             <Post
@@ -91,6 +93,7 @@ class Posts extends Component {
               setLike={this.setLike.bind(this, post._id)}
               setPlays={this.setPlays.bind(this, post._id)}
               status={this.props.status}
+              inPlaylist={inPlaylist}
               addToPlaylist={this.props.setToPlaylist.bind(this, [
                 post._id,
                 token,
@@ -104,7 +107,6 @@ class Posts extends Component {
     if (loading) {
       audioPosts = <Spinner animation="grow" variant="info" />;
     }
-    // console.log(this.props.userId);
     return (
       <Container className="mt-5">
         <Row className="m-5">
