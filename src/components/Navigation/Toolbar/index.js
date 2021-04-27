@@ -14,15 +14,20 @@ const Toolbar = (props) => (
         <Nav.Link as={NavLink} to="/categories">
           Categories
         </Nav.Link>
-        {props.isAuth && props.status === 'Admin' ? (
-          <Nav.Link as={NavLink} to="/add-post">
-            Add Audio
-          </Nav.Link>
-        ) : null}
         {props.isAuth ? (
           <Nav.Link as={NavLink} to="/playlists">
             Playlists
           </Nav.Link>
+        ) : null}
+        {props.isAuth && props.status === 'Admin' ? (
+          <Aux>
+            <Nav.Link as={NavLink} to="/add-post">
+              Add Audio
+            </Nav.Link>
+            <Nav.Link as={NavLink} to="/users">
+              Users
+            </Nav.Link>
+          </Aux>
         ) : null}
       </Nav>
       <Nav className="justify-content-end">

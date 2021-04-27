@@ -13,6 +13,7 @@ import Login from './containers/Auth/Login';
 import Signup from './containers/Auth/Signup';
 import Logout from './containers/Auth/Logout';
 import Playlists from './containers/Playlists';
+import Users from './containers/Users';
 
 function App(props) {
   useEffect(() => {
@@ -24,6 +25,7 @@ function App(props) {
         <Route path="/categories" component={Categories} />
         <Route path="/add-post" component={AddAudio} />
         <Route path="/playlists" component={Playlists} />
+        <Route path="/users" component={Users} />
         <Route path="/login" component={Login} />
         <Route path="/logout" component={Logout} />
         <Route path="/signup" component={Signup} />

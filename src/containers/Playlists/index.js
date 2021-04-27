@@ -15,6 +15,7 @@ class Playlists extends Component {
     readOnly: true,
     value: '',
     id: null,
+    touched: false,
   };
   componentDidMount() {
     this.props.fetchPosts();
@@ -37,20 +38,23 @@ class Playlists extends Component {
   onChange = ({ target }) => {
     this.setState({
       value: target.value,
+      touched: true,
     });
   };
 
   onBlurInput = (id) => {
-    this.setState({
-      readOnly: true,
-    });
-    const formData = new FormData();
-    formData.append('name', this.state.value);
-    this.props.changeName(id, this.props.token, formData);
+    if (this.state.touched) {
+      this.setState({
+        readOnly: true,
+        touched: false,
+      });
+      const formData = new FormData();
+      formData.append('name', this.state.value);
+      this.props.changeName(id, this.props.token, formData);
+    }
   };
 
   showPlaylist = (id) => {
-    console.log(id);
     this.setState((prevState) => {
       return { id: prevState.id !== id ? id : null };
     });

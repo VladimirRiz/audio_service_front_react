@@ -22,4 +22,6 @@ export {
   changeName,
 } from './playlists';
 
+export { fetchUser, updateUser, createUser, removeUser } from './users';
+
 export { auth, logout, authCheckState } from './auth';
