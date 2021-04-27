@@ -26,7 +26,6 @@ export const logout = () => {
   localStorage.removeItem('token');
   localStorage.removeItem('expirationDate');
   localStorage.removeItem('userId');
-
   return {
     type: actions.AUTH_LOGOUT,
   };
@@ -76,15 +75,14 @@ export const auth = (url, settings) => {
 export const authCheckState = () => {
   return (dispatch) => {
     const token = localStorage.getItem('token');
-    // console.log(token);
     if (!token) return dispatch(logout());
     const expirationDate = new Date(localStorage.getItem('expirationDate'));
-    // if (expirationDate <= new Date()) return dispatch(logout());
+    if (expirationDate <= new Date()) return dispatch(logout());
     const userId = localStorage.getItem('userId');
     const status = localStorage.getItem('status');
     dispatch(authSuccess(token, userId, status));
-    // dispatch(
-    //   setAutoLogout(expirationDate.getSeconds() - new Date().getSeconds())
-    // );
+    dispatch(
+      setAutoLogout((expirationDate.getTime() - new Date().getTime()) / 1000)
+    );
   };
 };

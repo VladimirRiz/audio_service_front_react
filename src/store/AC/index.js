@@ -18,6 +18,7 @@ export {
 export {
   setToPlaylist,
   fetchPlaylists,
+  removePlaylist,
   removeFromPlaylist,
   changeName,
 } from './playlists';

@@ -26,8 +26,10 @@ class Posts extends Component {
   componentDidMount() {
     this.props.createPostInit();
     this.props.editPostFinish();
-    this.props.fetchPosts(this.props.token);
-    this.props.fetchPlaylists(this.props.userId);
+    this.props.fetchPosts();
+    if (this.props.token) {
+      this.props.fetchPlaylists(this.props.userId);
+    }
   }
 
   onDelete = (postId) => {

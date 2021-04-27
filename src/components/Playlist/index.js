@@ -14,7 +14,11 @@ const Playlist = (props) => {
           <p>{song.title}</p>
           <Player audio={song.audio} />
           <FaTrash
-            onClick={props.remove.bind(this, [song._id, props.token])}
+            onClick={props.remove.bind(this, [
+              song._id,
+              props.token,
+              props.playlistName,
+            ])}
             className="pointer"
           />
         </Col>

@@ -4,9 +4,11 @@ import { Container, Row, Col, Button, Form } from 'react-bootstrap';
 import {
   fetchPlaylists,
   fetchPosts,
+  removePlaylist,
   removeFromPlaylist,
   changeName,
 } from '../../store/AC';
+import { FaRegTrashAlt } from 'react-icons/fa';
 import Playlist from '../../components/Playlist';
 import Spinner from '../../UI/Spinner';
 
@@ -71,6 +73,7 @@ class Playlists extends Component {
                 token={this.props.token}
                 remove={this.props.removeFromPlaylist}
                 lists={this.getUrl(id)}
+                playlistName={playlist.name}
               />
             );
           });
@@ -98,6 +101,14 @@ class Playlists extends Component {
 
                   <p>Songs: {playlist.songs.length}</p>
                 </div>
+                <FaRegTrashAlt
+                  className="pointer"
+                  onClick={this.props.removePlaylist.bind(this, [
+                    this.props.token,
+                    playlist.name,
+                  ])}
+                />
+
                 <div>
                   <Button
                     variant="info"
@@ -144,6 +155,7 @@ const mapDispatchToProps = {
   fetchPlaylists,
   fetchPosts,
   removeFromPlaylist,
+  removePlaylist,
   changeName,
 };
 

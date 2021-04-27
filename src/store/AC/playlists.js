@@ -39,11 +39,35 @@ export const setToPlaylist = ([postId, token]) => {
   };
 };
 
-export const removeFromPlaylist = ([postId, token]) => {
-  console.log(token);
+export const removeFromPlaylist = ([postId, token, name]) => {
   return (dispatch) => {
-    fetch(`http://localhost:8080/feed/playlist-remove/${postId}`, {
+    fetch(`http://localhost:8080/feed/playlist-remove-song/${postId}`, {
+      method: 'PUT',
+      body: JSON.stringify({
+        name: name,
+      }),
       headers: {
+        Accept: 'application/json',
+        'Content-Type': 'application/json',
+        Authorization: `Bearer ${token}`,
+      },
+    })
+      .then((res) => res.json())
+      .then((resData) => dispatch(fetchPlaylistsSuccess(resData.playlists)))
+      .catch((err) => dispatch(fetchPlaylistsFail(err)));
+  };
+};
+
+export const removePlaylist = ([token, name]) => {
+  return (dispatch) => {
+    fetch(`http://localhost:8080/feed/playlist-remove/`, {
+      method: 'PUT',
+      body: JSON.stringify({
+        name: name,
+      }),
+      headers: {
+        Accept: 'application/json',
+        'Content-Type': 'application/json',
         Authorization: `Bearer ${token}`,
       },
     })
