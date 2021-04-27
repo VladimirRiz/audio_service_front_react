@@ -1,10 +1,21 @@
 import { Component } from 'react';
 import { connect } from 'react-redux';
-import { Container, Row, Col, Button } from 'react-bootstrap';
-import { fetchPlaylists, fetchPosts, removeFromPlaylist } from '../../store/AC';
+import { Container, Row, Col, Button, Form } from 'react-bootstrap';
+import {
+  fetchPlaylists,
+  fetchPosts,
+  removeFromPlaylist,
+  changeName,
+} from '../../store/AC';
 import Playlist from '../../components/Playlist';
+import Spinner from '../../UI/Spinner';
 
 class Playlists extends Component {
+  state = {
+    readOnly: true,
+    value: '',
+    id: null,
+  };
   componentDidMount() {
     this.props.fetchPosts();
     this.props.fetchPlaylists(this.props.userId);
@@ -14,17 +25,45 @@ class Playlists extends Component {
     const posts = [...this.props.posts].filter((post) => {
       return post._id.toString() === postId.toString();
     });
-    console.log(posts);
     return posts;
   };
+
+  onClickInput = () => {
+    this.setState({
+      readOnly: false,
+    });
+  };
+
+  onChange = ({ target }) => {
+    this.setState({
+      value: target.value,
+    });
+  };
+
+  onBlurInput = (id) => {
+    this.setState({
+      readOnly: true,
+    });
+    const formData = new FormData();
+    formData.append('name', this.state.value);
+    this.props.changeName(id, this.props.token, formData);
+  };
+
+  showPlaylist = (id) => {
+    console.log(id);
+    this.setState((prevState) => {
+      return { id: prevState.id !== id ? id : null };
+    });
+  };
+
   render() {
-    // console.log(this.props.posts);
     const playlist =
       this.props.playlists && this.props.playlists.length > 0 ? (
         this.props.playlists.map((playlist) => {
           const songs = playlist.songs.map((id) => {
             return (
               <Playlist
+                key={id}
                 token={this.props.token}
                 remove={this.props.removeFromPlaylist}
                 lists={this.getUrl(id)}
@@ -32,20 +71,41 @@ class Playlists extends Component {
             );
           });
           return (
-            <Col>
-              <Col
-                className="p-3 d-flex justify-content-between align-items-center border border-dark rounded"
-                key={playlist.name}
-              >
+            <Col key={playlist.name}>
+              <Col className="mt-3 p-3 d-flex justify-content-between align-items-center border border-dark rounded">
                 <div>
-                  <h3>{playlist.name}</h3>
+                  <Form>
+                    <Form.Group as={Row} controlId="formPlaintextEmail">
+                      <Col sm="10">
+                        <Form.Control
+                          plaintext
+                          readOnly={this.state.readOnly}
+                          defaultValue={playlist.name}
+                          ref={(input) => {
+                            this.nameInput = input;
+                          }}
+                          onChange={this.onChange}
+                          onClick={this.onClickInput}
+                          onBlur={this.onBlurInput.bind(this, [playlist._id])}
+                        />
+                      </Col>
+                    </Form.Group>
+                  </Form>
+
                   <p>Songs: {playlist.songs.length}</p>
                 </div>
                 <div>
-                  <Button variant="info">Show playlist</Button>
+                  <Button
+                    variant="info"
+                    onClick={this.showPlaylist.bind(this, playlist._id)}
+                  >
+                    Show playlist
+                  </Button>
                 </div>
               </Col>
-              <Col className="mt-3">{songs}</Col>
+              {this.state.id === playlist._id ? (
+                <Col className="mt-3">{songs}</Col>
+              ) : null}
             </Col>
           );
         })
@@ -54,7 +114,13 @@ class Playlists extends Component {
       );
     return (
       <Container className="mt-5">
-        <Row className="justify-content-around ">{playlist}</Row>
+        {this.props.loading ? (
+          <Spinner />
+        ) : (
+          <Row className="d-flex flex-column justify-content-around ">
+            {playlist}
+          </Row>
+        )}
       </Container>
     );
   }
@@ -66,9 +132,15 @@ const mapStateToProps = (state) => {
     userId: state.auth.userId,
     posts: state.posts.posts,
     token: state.auth.token,
+    loading: state.posts.loading,
   };
 };
 
-const mapDispatchToProps = { fetchPlaylists, fetchPosts, removeFromPlaylist };
+const mapDispatchToProps = {
+  fetchPlaylists,
+  fetchPosts,
+  removeFromPlaylist,
+  changeName,
+};
 
 export default connect(mapStateToProps, mapDispatchToProps)(Playlists);

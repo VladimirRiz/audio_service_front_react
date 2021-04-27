@@ -15,6 +15,11 @@ export {
   editPostFinish,
   setComment,
 } from './post';
-export { setToPlaylist, fetchPlaylists, removeFromPlaylist } from './playlists';
+export {
+  setToPlaylist,
+  fetchPlaylists,
+  removeFromPlaylist,
+  changeName,
+} from './playlists';
 
 export { auth, logout, authCheckState } from './auth';

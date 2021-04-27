@@ -1,6 +1,4 @@
 import { Component } from 'react';
-import Aux from '../../hoc/Aux';
-import { Col } from 'react-bootstrap';
 import './style.css';
 import { MdPlayArrow, MdPause } from 'react-icons/md';
 

@@ -52,3 +52,18 @@ export const removeFromPlaylist = ([postId, token]) => {
       .catch((err) => dispatch(fetchPlaylistsFail(err)));
   };
 };
+
+export const changeName = (listId, token, formData) => {
+  return (dispatch) => {
+    fetch(`http://localhost:8080/feed/playlist-name/${listId}`, {
+      method: 'PUT',
+      body: formData,
+      headers: {
+        Authorization: `Bearer ${token}`,
+      },
+    })
+      .then((res) => res.json())
+      .then((resData) => dispatch(fetchPlaylistsSuccess(resData.playlists)))
+      .catch((err) => dispatch(fetchPlaylistsFail(err)));
+  };
+};
