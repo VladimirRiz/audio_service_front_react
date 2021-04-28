@@ -8,6 +8,7 @@ const INITIAL_STATE = {
   error: null,
   loading: false,
   status: null,
+  counter: 0,
 };
 
 const authStart = (state, action) => {
@@ -20,6 +21,7 @@ const authSuccess = (state, action) => {
     userId: action.userId,
     error: null,
     status: action.status,
+    counter: 0,
   });
 };
 const authFail = (state, action) => {
@@ -33,7 +35,11 @@ const authFail = (state, action) => {
 };
 
 const logout = (state, action) => {
-  return updateObject(state, { token: null, userId: null });
+  return updateObject(state, { token: null, userId: null, status: null });
+};
+
+const notAuth = (state, action) => {
+  return updateObject(state, { counter: state.counter + 1 });
 };
 
 const reducer = (state = INITIAL_STATE, action) => {
@@ -46,6 +52,8 @@ const reducer = (state = INITIAL_STATE, action) => {
       return authFail(state, action);
     case actions.AUTH_LOGOUT:
       return logout(state, action);
+    case actions.NOT_AUTH:
+      return notAuth(state, action);
     default:
       return state;
   }

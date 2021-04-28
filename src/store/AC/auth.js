@@ -26,6 +26,7 @@ export const logout = () => {
   localStorage.removeItem('token');
   localStorage.removeItem('expirationDate');
   localStorage.removeItem('userId');
+  localStorage.removeItem('status');
   return {
     type: actions.AUTH_LOGOUT,
   };
@@ -84,5 +85,11 @@ export const authCheckState = () => {
     dispatch(
       setAutoLogout((expirationDate.getTime() - new Date().getTime()) / 1000)
     );
+  };
+};
+
+export const notAuth = () => {
+  return {
+    type: actions.NOT_AUTH,
   };
 };

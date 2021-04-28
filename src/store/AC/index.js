@@ -25,4 +25,4 @@ export {
 
 export { fetchUser, updateUser, createUser, removeUser } from './users';
 
-export { auth, logout, authCheckState } from './auth';
+export { auth, logout, authCheckState, notAuth } from './auth';

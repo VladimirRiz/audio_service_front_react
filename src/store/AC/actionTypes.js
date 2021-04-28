@@ -51,3 +51,5 @@ export const FETCH_USER_SUCCESS = 'FETCH_USER_SUCCESS';
 export const FETCH_USER_FAIL = 'FETCH_POST_FAIL';
 
 export const UPDATE_USER_SUCCESS = 'UPDATE_USER_SUCCESS';
+
+export const NOT_AUTH = 'NOT_AUTH';

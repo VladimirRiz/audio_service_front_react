@@ -83,6 +83,7 @@ class Posts extends Component {
           return (
             <Post
               key={post._id}
+              token={this.props.token}
               title={post.title}
               description={post.description}
               audio={post.audio}

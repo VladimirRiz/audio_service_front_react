@@ -11,11 +11,18 @@ const Post = (props) => {
       <Col className="d-flex flex-column justify-content-between">
         <Col className="d-flex justify-content-between align-items-center">
           <h4> {props.title}</h4>
-          {!props.inPlaylist ? (
-            <FaPlus className="Add_Playlist" onClick={props.addToPlaylist} />
-          ) : (
-            <FaCheck />
-          )}
+          {props.token ? (
+            <div>
+              {!props.inPlaylist ? (
+                <FaPlus
+                  className="Add_Playlist"
+                  onClick={props.addToPlaylist}
+                />
+              ) : (
+                <FaCheck />
+              )}
+            </div>
+          ) : null}
         </Col>
         <div className="Audio">
           <Player audio={props.audio} setPlays={props.setPlays} />
@@ -24,7 +31,7 @@ const Post = (props) => {
         <div className="mb-3 d-flex  justify-content-between align-items-center">
           <div
             className="Likes d-flex  justify-content-between align-items-center"
-            onClick={props.setLike}
+            onClick={props.token ? props.setLike : null}
           >
             {props.isLike ? <FaHeart color="red" /> : <FaRegHeart />}{' '}
             <span>{props.likes}</span>

@@ -1,4 +1,7 @@
 import { Component } from 'react';
+import { connect } from 'react-redux';
+import { notAuth } from '../../store/AC';
+import { Redirect } from 'react-router-dom';
 import './style.css';
 import { MdPlayArrow, MdPause } from 'react-icons/md';
 
@@ -11,6 +14,9 @@ class Player extends Component {
   playPreview = () => {
     if (!this.state.isPlaying) {
       if (!this.state.isPlayed) {
+        if (!this.props.isAuth) {
+          this.props.notAuth();
+        }
         this.props.setPlays();
       }
       this.setState({ isPlaying: true, isPlayed: true });
@@ -35,6 +41,7 @@ class Player extends Component {
   render() {
     return (
       <div>
+        {this.props.counter === 10 ? <Redirect to="/signup" /> : null}
         {this.isPlay()}
         <audio
           onClick={this.playPreview}
@@ -49,4 +56,13 @@ class Player extends Component {
   }
 }
 
-export default Player;
+const mapStateToProps = (state) => {
+  return {
+    isAuth: state.auth.token !== null,
+    counter: state.auth.counter,
+  };
+};
+
+const mapDispatchToProps = { notAuth };
+
+export default connect(mapStateToProps, mapDispatchToProps)(Player);
