@@ -4,6 +4,7 @@ import post from './post';
 import auth from './auth';
 import playlists from './playlists';
 import users from './users';
+import categories from './categories';
 
 const reducer = combineReducers({
   posts: posts,
@@ -11,6 +12,7 @@ const reducer = combineReducers({
   auth: auth,
   playlists,
   users,
+  categories,
 });
 
 export default reducer;

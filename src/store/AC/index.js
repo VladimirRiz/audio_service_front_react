@@ -26,3 +26,5 @@ export {
 export { fetchUser, updateUser, createUser, removeUser } from './users';
 
 export { auth, logout, authCheckState, notAuth } from './auth';
+
+export { createCategory } from './categories';

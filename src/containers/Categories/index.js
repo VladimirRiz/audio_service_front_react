@@ -4,14 +4,28 @@ import {
   Row,
   ToggleButtonGroup,
   ToggleButton,
+  Form,
+  Button,
 } from 'react-bootstrap';
 import { connect } from 'react-redux';
 import Category from '../../components/Category';
 import Spinner from '../../UI/Spinner';
-import { fetchPostsCategory, fetchPopular } from '../../store/AC';
+import {
+  fetchPostsCategory,
+  fetchPopular,
+  fetchPosts,
+  createCategory,
+} from '../../store/AC';
+import ModalWindow from '../../UI/Spinner/Modal';
 
 class Categories extends Component {
-  componentDidMount() {}
+  state = {
+    name: '',
+  };
+
+  componentDidMount() {
+    this.props.fetchPosts();
+  }
 
   getCategory = (category) => {
     this.props.fetchPostsCategory(category);
@@ -62,10 +76,41 @@ class Categories extends Component {
       : null;
   };
 
+  setName = ({ target }) => {
+    this.setState({
+      name: target.value,
+    });
+  };
+
+  onSubmit = (e) => {
+    e.preventDefault();
+    const formData = new FormData();
+    formData.append('name', this.state.name);
+    this.props.createCategory(formData);
+  };
+
   render() {
     const categoryItem = this.props.loading ? <Spinner /> : this.showItems();
     return (
       <Container className="mt-5">
+        {this.props.isAuth && this.props.status === 'Admin' ? (
+          <ModalWindow text="Add Category">
+            <Form onSubmit={this.onSubmit}>
+              <Form.Group className="m-5">
+                <Form.Control
+                  size="lg"
+                  type="text"
+                  placeholder="Large text"
+                  value={this.state.name}
+                  onChange={this.setName}
+                />
+                <Button variant="primary" type="submit">
+                  Add
+                </Button>
+              </Form.Group>
+            </Form>
+          </ModalWindow>
+        ) : null}
         <h1>Categories</h1>
         <Row className="d-flex  justify-content-between">
           <div>
@@ -102,9 +147,15 @@ const mapStateToProps = (state) => {
     loading: state.posts.loading,
     isAuth: state.auth.token !== null,
     userId: state.auth.userId,
+    status: state.auth.status,
   };
 };
 
-const mapDispatchToProps = { fetchPostsCategory, fetchPopular };
+const mapDispatchToProps = {
+  fetchPostsCategory,
+  fetchPopular,
+  fetchPosts,
+  createCategory,
+};
 
 export default connect(mapStateToProps, mapDispatchToProps)(Categories);
