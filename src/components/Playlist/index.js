@@ -9,7 +9,7 @@ const Playlist = (props) => {
       {props.lists.map((song) => (
         <Col
           key={song._id}
-          className="p-2 d-flex justify-content-between align-items-center border "
+          className="p- d-flex justify-content-between align-items-center border "
         >
           <p>{song.title}</p>
           <Player audio={song.audio} />

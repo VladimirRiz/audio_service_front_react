@@ -7,10 +7,11 @@ import './style.css';
 
 const Post = (props) => {
   return (
-    <Row xs={1} md={1} className="m-2 p-3 border">
-      <Col className="d-flex flex-column justify-content-between">
-        <Col className="d-flex justify-content-between align-items-center">
-          <h4> {props.title}</h4>
+    // <Row className="m-2 p-3 border">
+    <Col md={6} className="p-2 d-flex flex-column justify-content-around ">
+      <div className="pt-2 shadow-sm p-3 mb-3 bg-white rounded">
+        <Col className="mb-2 d-flex justify-content-between align-items-center">
+          <h2 style={{ margin: 0 }}> {props.title}</h2>
           {props.token ? (
             <div>
               {!props.inPlaylist ? (
@@ -24,11 +25,11 @@ const Post = (props) => {
             </div>
           ) : null}
         </Col>
-        <div className="Audio">
+        <Col className="Audio mb-2">
           <Player audio={props.audio} setPlays={props.setPlays} />
-          <p>{props.plays} plays</p>
-        </div>
-        <div className="mb-3 d-flex  justify-content-between align-items-center">
+        </Col>
+        <Col className="d-flex justify-content-between">
+          <small>{props.plays} plays</small>
           <div
             className="Likes d-flex  justify-content-between align-items-center"
             onClick={props.token ? props.setLike : null}
@@ -36,31 +37,33 @@ const Post = (props) => {
             {props.isLike ? <FaHeart color="red" /> : <FaRegHeart />}{' '}
             <span>{props.likes}</span>
           </div>
+        </Col>
+        <Col className="mt-2 d-flex  justify-content-between align-items-center">
           <Link className="Post_button More_btn" to={props.link}>
-            Show More
+            See More
           </Link>
-        </div>
-
-        {props.status === 'Admin' ? (
-          <div className="d-flex  justify-content-end">
-            <Link
-              className="Post_button Edit"
-              onClick={props.onEdit.bind(this, props.link)}
-              to={`/add-post/${props.link}`}
-            >
-              <AiFillEdit />
-            </Link>
-            <Button
-              variant="danger"
-              className="d-flex align-items-center"
-              onClick={props.delete.bind(this, props.link)}
-            >
-              <AiOutlineDelete />
-            </Button>{' '}
-          </div>
-        ) : null}
-      </Col>
-    </Row>
+          {props.status === 'Admin' ? (
+            <div className="d-flex  justify-content-end">
+              <Link
+                className="Post_button Edit"
+                onClick={props.onEdit.bind(this, props.link)}
+                to={`/add-post/${props.link}`}
+              >
+                <AiFillEdit />
+              </Link>
+              <Button
+                variant="danger"
+                className="d-flex align-items-center"
+                onClick={props.delete.bind(this, props.link)}
+              >
+                <AiOutlineDelete />
+              </Button>{' '}
+            </div>
+          ) : null}
+        </Col>
+      </div>
+    </Col>
+    // </Row>
   );
 };
 

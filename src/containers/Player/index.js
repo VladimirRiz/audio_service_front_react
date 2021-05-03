@@ -44,6 +44,7 @@ class Player extends Component {
         {this.props.counter === 10 ? <Redirect to="/signup" /> : null}
         {this.isPlay()}
         <audio
+          style={{ width: '100%' }}
           onClick={this.playPreview}
           controls
           ref={(input) => {

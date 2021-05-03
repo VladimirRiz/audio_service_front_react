@@ -160,6 +160,7 @@ const mapStateToProps = (state) => {
   return {
     loading: state.users.loading,
     error: state.users.error,
+    users: state.users.users,
   };
 };
 

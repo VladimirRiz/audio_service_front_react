@@ -45,7 +45,10 @@ class SinglePost extends Component {
     ) : (
       <Container className="mt-5">
         <Row className="justify-content-md-center">
-          <Col className="d-flex flex-column justify-content-between">
+          <Col
+            md={{ span: 8 }}
+            className="d-flex flex-column justify-content-between"
+          >
             <h4>{title}</h4>
             <div onClick={this.onPlay}>
               <audio controls ref={this.play}>
@@ -53,7 +56,11 @@ class SinglePost extends Component {
                 Your browser does not support the audio element.
               </audio>
             </div>
-            <p>{description}</p>
+            <div>
+              <h4>Description</h4>
+              <p>{description}</p>
+            </div>
+            <hr />
             <div>
               <h4>Comments:</h4>
               {this.showComments()}
